@@ -1,0 +1,10 @@
+.input {
+    margin-left: 5px;
+    background-color: #ddd;
+    color: #363b48;
+    border: none;
+    border-radius: 3px;
+    &:focus{
+        outline: none;
+    }
+}
