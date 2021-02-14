@@ -1,11 +1,13 @@
-import Header from '../../components/header/index'
+import Header from "../../components/Header/index";
+import Article from "../../components/Article/index";
 
 const Home = () => {
   return (
-    <div>
-        <Header/>
-    </div>
-  )
+    <>
+      <Header />
+      <Article title="title" content="Hello!!" />
+    </>
+  );
 };
 
 export default Home;

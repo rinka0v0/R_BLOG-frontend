@@ -1,0 +1,25 @@
+.container {
+  margin: 90px auto 0;
+  width: 900px;
+  height: 300px;
+  display: flex;
+  background-color: #ddd;
+  > figure {
+    margin: auto 15px;
+    height: 280px;
+    width: 540px;
+    background-color: black;
+  }
+}
+
+.article_text_block {
+  height: 280px;
+  width: 380px;
+  margin: auto 15px auto 0;
+  color: #363b48;
+
+  > div:nth-child(1) {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+}
