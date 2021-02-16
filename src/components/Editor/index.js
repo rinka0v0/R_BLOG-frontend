@@ -1,6 +1,6 @@
 import EditorJS from "@editorjs/editorjs";
 import styles from "./index.module.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 function Editor() {
   const editor = new EditorJS({
@@ -8,10 +8,10 @@ function Editor() {
   });
 
   useEffect(() => {
-    return function () {
+    return () => {
       destroyEditor();
-    }
-  })
+    };
+  });
 
   const destroyEditor = () => {
     return new Promise((resolve, reject) => {
