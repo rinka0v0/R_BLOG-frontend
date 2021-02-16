@@ -5,13 +5,13 @@ body {
   font-family: Bodoni 72, sans-serif;
   background-color: #363B48;
   color: #ddd;
+  a {
+    text-decoration: none;
+    color: #ddd;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
 }
 
-a {
-  text-decoration: none;
-  color: #ddd;
-}
-
-* {
-  box-sizing: border-box;
-}
