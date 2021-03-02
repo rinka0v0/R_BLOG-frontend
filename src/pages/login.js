@@ -1,11 +1,34 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormButton from "../components/FormButton/index";
 import FormInput from "../components/FormInput/index";
+import { useRouter } from "next/router";
+import useUser from "../data/useUser";
+import { login } from "../requests/userApi";
 
 export default function Login() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+
+  const { mutate, loggedIn } = useUser();
+  const router = useRouter();
+  useEffect(() => {
+    if (loggedIn) {
+      router.push("/home");
+    }
+  }, [loggedIn]);
+
+  if (loggedIn) {
+    return <>Redirecting... </>;
+  }
+
+  const onLoginSubmit = (e) => {
+    e.preventDefault();
+    if (name && password) {
+      login({ name, password });
+      mutate();
+    }
+  };
 
   return (
     <>
@@ -13,8 +36,10 @@ export default function Login() {
         <a>Sign Up</a>
       </Link>
 
+      <button onClick={logout}>logout</button>
+
       <h1>Login </h1>
-      <form method="post" onSubmit={FetchData}>
+      <form method="post" onSubmit={onLoginSubmit}>
         <FormInput
           label="password"
           name="password"
@@ -34,8 +59,3 @@ export default function Login() {
     </>
   );
 }
-
-const FetchData = async (e) => {
-  e.preventDefault();
-  console.log("Logined!!");
-};
