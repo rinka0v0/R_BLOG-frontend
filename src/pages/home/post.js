@@ -27,6 +27,7 @@ const Post = () => {
       </>
     );
   }
+  return <div className="container"> Login to get info </div>;
 };
 
 export default Post;
