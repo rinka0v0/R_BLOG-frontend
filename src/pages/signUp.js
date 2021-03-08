@@ -10,25 +10,25 @@ export default function Login() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate, loggedIn } = useUser();
-  const router = useRouter();
+  const { loggedIn, mutate } = useUser();
+
   useEffect(() => {
     if (loggedIn) {
-      router.push("/home");
+      Router.replace("/home");
     }
   }, [loggedIn]);
+
+  const onSignupSubmit = async (e) => {
+    e.preventDefault();
+    if (name && password) {
+      await signup({ name, password });
+      mutate();
+    }
+  };
 
   if (loggedIn) {
     return <>Redirecting... </>;
   }
-
-  const onSignupSubmit = (e) => {
-    e.preventDefault();
-    if (name && password) {
-      signup({ name, password });
-      mutate();
-    }
-  };
 
   return (
     <>

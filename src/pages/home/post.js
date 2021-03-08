@@ -1,6 +1,6 @@
 import Header from "../../components/Header/index";
 import useUser from "../../data/useUser";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
 
@@ -10,10 +10,9 @@ const Editor = dynamic(() => import("../../components/Editor/index"), {
 
 const Post = () => {
   const { user, loading, loggedIn } = useUser();
-  const router = useRouter();
   useEffect(() => {
     if (!loggedIn) {
-      router.push("/login");
+      Router.replace("/login");
     }
   }, [loggedIn]);
 
