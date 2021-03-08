@@ -1,19 +1,16 @@
 import axios from "axios";
 
-axios.defaults.withCredentialsb = true;
+axios.defaults.withCredentials = true;
 const API_URL = "http://localhost:3000/auth/";
 
-// auth/signup
 export const signup = async ({ name, password }) => {
   try {
-    const res = await axios.post("http://localhost:3000/auth/signup", {
+    const res = await axios.post(API_URL + "signup", {
       name: name,
       password: password,
     });
-    if (res.data.message) {
-      console.log("この名前は既に使われています。");
-    } else if (res) {
-      console.log("sign up!");
+    if (res) {
+      console.log("success sign up");
     } else {
       console.log("error!!");
     }
@@ -22,22 +19,23 @@ export const signup = async ({ name, password }) => {
   }
 };
 
-// ログイン処理
 export const login = async ({ name, password }) => {
   try {
     const res = await axios.post(API_URL + "login", {
       name: name,
       password: password,
     });
-    console.log(res.data);
+    console.log(res);
   } catch (error) {
     console.log(error);
   }
 };
 
+// ユーザー情報を取得
 export const getUser = async () => {
   try {
     let res = await axios.get(API_URL + "me");
+    console.log("getUser return (res.data) => " + res.data.user_id);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -47,7 +45,8 @@ export const getUser = async () => {
 
 export const logout = async () => {
   try {
-    await axios.get(API_URL + "logout");
+    const res = await axios.get(API_URL + "logout");
+    console.log(res.data);
   } catch (error) {
     console.log(error);
   }

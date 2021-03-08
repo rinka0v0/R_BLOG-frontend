@@ -1,17 +1,16 @@
 import Header from "../../components/Header/index";
 import Article from "../../components/Article/index";
 import useUser from "../../data/useUser";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { useEffect } from "react";
 
 const Home = () => {
-  const { user, loading, loggedIn } = useUser();
-  const router = useRouter();
+  const { user,loading ,loggedIn } = useUser();
   useEffect(() => {
     if (!loggedIn) {
-      router.push("/login");
+      Router.replace("/login");
     }
-  },[loggedIn]);
+  }, [loggedIn]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -24,6 +23,7 @@ const Home = () => {
       </>
     );
   }
+  return <div className="container"> Login to get info </div>;
 };
 
 export default Home;
