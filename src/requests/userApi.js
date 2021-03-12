@@ -35,7 +35,6 @@ export const login = async ({ name, password }) => {
 export const getUser = async () => {
   try {
     let res = await axios.get(API_URL + "me");
-    console.log("getUser return (res.data) => " + res.data.user_id);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -46,7 +45,6 @@ export const getUser = async () => {
 export const logout = async () => {
   try {
     const res = await axios.get(API_URL + "logout");
-    console.log(res.data);
   } catch (error) {
     console.log(error);
   }

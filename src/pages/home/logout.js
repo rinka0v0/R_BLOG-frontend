@@ -3,6 +3,7 @@ import Router, { useRouter } from "next/router";
 import { useEffect } from "react";
 import useUser from "../../data/useUser";
 import { logout } from "../../requests/userApi";
+import Loading from "../../components/Loading/index";
 
 const Logout = () => {
   const { user, loggedIn, mutate } = useUser();
@@ -19,7 +20,7 @@ const Logout = () => {
   };
 
   if (!loggedIn) {
-    return <div>Redirecting...</div>;
+    return <Loading />;
   }
 
   if (loggedIn && user) {

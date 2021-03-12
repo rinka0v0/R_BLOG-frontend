@@ -5,6 +5,7 @@ import FormInput from "../components/FormInput/index";
 import Router from "next/router";
 import useUser from "../data/useUser";
 import { login } from "../requests/userApi";
+import Loading from "../components/Loading/index";
 
 export default function Login() {
   const [name, setName] = useState("");
@@ -21,12 +22,11 @@ export default function Login() {
     e.preventDefault();
     if (name && password) {
       await login({ name, password });
-      console.log("loggedIn =>" + loggedIn);
       mutate();
     }
   };
   if (loggedIn) {
-    return <>Redirecting... </>;
+    return <Loading />;
   }
   return (
     <>

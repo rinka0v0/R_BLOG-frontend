@@ -1,8 +1,10 @@
 import EditorJS from "@editorjs/editorjs";
 import styles from "./index.module.scss";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { post } from "../../requests/article";
+import FormInput from "../../components/FormInput/index";
 
-function Editor() {
+const Editor = () => {
   const editor = new EditorJS({
     holder: "editorjs",
   });
@@ -35,19 +37,28 @@ function Editor() {
     editor
       .save()
       .then((outputData) => {
-        console.log("Article data: ", outputData);
+        post({ title: title, data: outputData });
       })
       .catch((error) => {
-        console.log("Saving failed: ", error);
+        console.log("Post failed: ", error);
       });
   };
 
+  const [title, setTitle] = useState("");
+
   return (
-    <div>
+    <>
+      <button onClick={saveData}>投稿する</button>
+      <FormInput
+        label="title"
+        name="title"
+        type=""
+        value={title}
+        onChange={setTitle}
+      />
       <div id="editorjs" className={styles.container}></div>
-      <button onClick={saveData}>save data</button>
-    </div>
+    </>
   );
-}
+};
 
 export default Editor;
