@@ -3,9 +3,8 @@ import Article from "../../components/Article/index";
 import useUser from "../../data/useUser";
 import Router from "next/router";
 import { useEffect } from "react";
-import fetch from "isomorphic-fetch";
-import axios from "axios";
 import Loading from "../../components/Loading/index";
+import Link from "next/link";
 
 const Home = ({ blog }) => {
   const { user, loading, loggedIn } = useUser();
@@ -34,7 +33,6 @@ const Home = ({ blog }) => {
 
 export const getStaticProps = async () => {
   const API_URL = "http://localhost:3000/auth/";
-  axios.defaults.withCredentials = true;
   const res = await fetch(API_URL + "blogs");
   const blog = await res.json();
   return {
