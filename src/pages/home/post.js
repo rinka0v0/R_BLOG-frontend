@@ -25,7 +25,7 @@ const Post = () => {
     return (
       <>
         <Header />
-        <Editor />
+        <Editor readOnly={false}/>
       </>
     );
   }

@@ -6,6 +6,7 @@ const API_URL = "http://localhost:3000/auth/";
 //post article
 export const post = async ({ title, data }) => {
   try {
+    console.log(data);
     const stringigyData = JSON.stringify(data);
     const res = await axios.post(API_URL + "post", {
       title: title,
@@ -16,7 +17,3 @@ export const post = async ({ title, data }) => {
     console.log(error);
   }
 };
-
-
-
-

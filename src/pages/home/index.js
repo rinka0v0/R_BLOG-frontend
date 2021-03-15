@@ -4,7 +4,6 @@ import useUser from "../../data/useUser";
 import Router from "next/router";
 import { useEffect } from "react";
 import Loading from "../../components/Loading/index";
-import Link from "next/link";
 
 const Home = ({ blog }) => {
   const { user, loading, loggedIn } = useUser();
@@ -13,7 +12,7 @@ const Home = ({ blog }) => {
       Router.replace("/login");
     }
   }, [loggedIn]);
-  console.log(blog);
+  
   if (loading) {
     return <Loading />;
   }
