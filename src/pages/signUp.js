@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import FormButton from "../components/FormButton/index";
 import FormInput from "../components/FormInput/index";
 import useUser from "../data/useUser";
-import { useRouter } from "next/router";
+import Loading from "../components/Loading/index";
 import { signup } from "../requests/userApi";
 
 export default function Login() {
@@ -27,7 +27,7 @@ export default function Login() {
   };
 
   if (loggedIn) {
-    return <>Redirecting... </>;
+    return <Loading />;
   }
 
   return (
