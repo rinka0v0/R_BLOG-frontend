@@ -1,9 +1,9 @@
 import EditorJS from "@editorjs/editorjs";
 import styles from "./index.module.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { post } from "../../requests/articleApi";
-import FormInput from "../../components/FormInput/index";
 import { EDITOR_JS_TOOLS } from "./constants";
+import FormButton from "../FormButton";
 
 const Editor = (props) => {
   const editor = new EditorJS({
@@ -41,7 +41,7 @@ const Editor = (props) => {
     editor
       .save()
       .then((outputData) => {
-        post({ title: title, data: outputData });
+        post({ title: inputEl.current.value, data: outputData });
       })
       .catch((error) => {
         console.log("Post failed: ", error);
@@ -49,6 +49,7 @@ const Editor = (props) => {
   };
 
   const [title, setTitle] = useState("");
+  const inputEl = useRef(null);
 
   return (
     <>
@@ -56,14 +57,11 @@ const Editor = (props) => {
         <></>
       ) : (
         <>
-          <button onClick={saveData}>投稿する</button>
-          <FormInput
-            label="title"
-            name="title"
-            type=""
-            value={title}
-            onChange={setTitle}
-          />
+        <FormButton value="投稿する" onClick={saveData}/>
+          <label htmlFor="title">
+            title
+            <input ref={inputEl}  type="text" name="title" />
+          </label>
         </>
       )}
       <div id="editorjs" className={styles.container}></div>
