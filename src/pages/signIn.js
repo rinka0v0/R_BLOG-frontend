@@ -6,6 +6,7 @@ import Router from "next/router";
 import useUser from "../data/useUser";
 import { login } from "../requests/userApi";
 import Loading from "../components/Loading/index";
+import styles from "../styles/form.module.scss";
 
 export default function Login() {
   const [name, setName] = useState("");
@@ -30,12 +31,8 @@ export default function Login() {
   }
   return (
     <>
-      <Link href="/signUp">
-        <a>Sign Up</a>
-      </Link>
-
-      <h1>Login </h1>
-      <form method="post" onSubmit={onLoginSubmit}>
+      <form method="post" onSubmit={onLoginSubmit} className={styles.form}>
+        <h1>SIGN IN</h1>
         <FormInput
           label="password"
           name="password"
@@ -51,6 +48,10 @@ export default function Login() {
           onChange={setName}
         />
         <FormButton value="Login" />
+      <p>Don't have an account?</p>
+      <Link href="/signUp">
+        <a className={styles.link}>Sign Up</a>
+      </Link>
       </form>
     </>
   );
