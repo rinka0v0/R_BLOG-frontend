@@ -1,18 +1,19 @@
 import Header from "../../components/Header/index";
-import Article from "../../components/Article/index";
 import useUser from "../../data/useUser";
 import Router from "next/router";
 import { useEffect } from "react";
 import Loading from "../../components/Loading/index";
+import ArticleList from "../../components/ArticleList";
+import styles from "../../styles/homePage.module.scss";
 
 const Home = ({ blog }) => {
   const { user, loading, loggedIn } = useUser();
   useEffect(() => {
     if (!loggedIn) {
-      Router.replace("/login");
+      Router.replace("/signIn");
     }
   }, [loggedIn]);
-  
+
   if (loading) {
     return <Loading />;
   }
@@ -20,10 +21,18 @@ const Home = ({ blog }) => {
     return (
       <>
         <Header />
-        <Article title="title" content="Hello!!" />
-        {blog.map((article, id) => {
-          return <Article title={article.title} key={id} />;
-        })}
+        <div className={styles.articleList}>
+          {blog.map((article, id) => {
+            return (
+              <ArticleList
+                title={article.title}
+                key={id}
+                url={`/home/article/${article.id}`}
+                author={article.name}
+              />
+            );
+          })}
+        </div>
       </>
     );
   }

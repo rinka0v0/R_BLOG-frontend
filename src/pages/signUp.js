@@ -5,6 +5,7 @@ import FormInput from "../components/FormInput/index";
 import useUser from "../data/useUser";
 import Loading from "../components/Loading/index";
 import { signup } from "../requests/userApi";
+import styles from "../styles/form.module.scss";
 
 export default function Login() {
   const [name, setName] = useState("");
@@ -32,11 +33,8 @@ export default function Login() {
 
   return (
     <>
-      <h1>create account</h1>
-      <Link href="/login">
-        <a>Login</a>
-      </Link>
-      <form method="post" onSubmit={onSignupSubmit}>
+      <form method="post" onSubmit={onSignupSubmit} className={styles.form}>
+        <h1>SIGN UP</h1>
         <FormInput
           label="password"
           name="password"
@@ -52,6 +50,10 @@ export default function Login() {
           onChange={setName}
         />
         <FormButton value="Sign Up!" />
+        <p>Already have an account?</p>
+        <Link href="/signIn">
+          <a className={styles.link}>Sign In</a>
+        </Link>
       </form>
     </>
   );

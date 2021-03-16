@@ -5,13 +5,14 @@ import useUser from "../../data/useUser";
 import { logout } from "../../requests/userApi";
 import Loading from "../../components/Loading/index";
 import FormButton from "../../components/FormButton";
+import styles from "../../styles/form.module.scss"
 
 const Logout = () => {
   const { user, loggedIn, mutate } = useUser();
 
   useEffect(() => {
     if (!loggedIn) {
-      Router.replace("/login");
+      Router.replace("/signIn");
     }
   }, [loggedIn]);
 
@@ -28,8 +29,10 @@ const Logout = () => {
     return (
       <>
         <Header></Header>
-        <div>ログアウトしますか？</div>
-        <FormButton value="Logout!" onClick={onLogoutSubmit} />
+        <form className={styles.signOut}>
+        <h1>Do you want to sign out?</h1>
+        <FormButton value="SIGN OUT!" onClick={onLogoutSubmit} className={styles.button}/>
+        </form>
       </>
     );
   }

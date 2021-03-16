@@ -15,7 +15,7 @@ const Post = () => {
 
   useEffect(() => {
     if (!loggedIn) {
-      Router.replace("/login");
+      Router.replace("/signIn");
     }
   }, [loggedIn]);
 
