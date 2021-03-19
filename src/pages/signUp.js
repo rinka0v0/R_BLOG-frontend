@@ -6,6 +6,7 @@ import useUser from "../data/useUser";
 import Loading from "../components/Loading/index";
 import { signup } from "../requests/userApi";
 import styles from "../styles/form.module.scss";
+import Router from "next/router";
 
 export default function Login() {
   const [name, setName] = useState("");

@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { post } from "../../requests/articleApi";
 import { EDITOR_JS_TOOLS } from "./constants";
 import FormButton from "../FormButton";
+import Router from "next/router";
+import Head from 'next/head';
 
 const Editor = (props) => {
   const editor = new EditorJS({
@@ -42,6 +44,7 @@ const Editor = (props) => {
       .save()
       .then((outputData) => {
         post({ title: inputEl.current.value, data: outputData });
+        Router.replace("/home");
       })
       .catch((error) => {
         console.log("Post failed: ", error);
@@ -52,20 +55,23 @@ const Editor = (props) => {
   const inputEl = useRef(null);
 
   return (
-    <>
+    <div className={styles.container}>
+      <Head>
+        <title>R_BLOG</title>
+      </Head>
       {props.readOnly ? (
         <></>
       ) : (
         <>
-        <FormButton value="投稿する" onClick={saveData}/>
-          <label htmlFor="title">
+          <FormButton value="投稿する" onClick={saveData} />
+          <label>
             title
-            <input ref={inputEl}  type="text" name="title" />
+            <input ref={inputEl} type="text" name="title" placeholder="title" />
           </label>
         </>
       )}
-      <div id="editorjs" className={styles.container}></div>
-    </>
+      <div id="editorjs" className={styles.editor}></div>
+    </div>
   );
 };
 
