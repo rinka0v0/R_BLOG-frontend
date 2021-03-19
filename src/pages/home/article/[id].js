@@ -1,17 +1,51 @@
-import Header from "../../../components/Header/index"
+import Header from "../../../components/Header/index";
 import dynamic from "next/dynamic";
+import styles from "../../../styles/article.module.scss";
+import useUser from "../../../data/useUser";
+import { useEffect } from "react";
+import Loading from "../../../components/Loading";
+import Router from "next/router";
+import FormButton from "../../../components/FormButton";
+import { articleDelete } from "../../../requests/articleApi";
+
 const Editor = dynamic(() => import("../../../components/Editor/index"), {
   ssr: false,
 });
 
 const Article = ({ blog }) => {
+  const { user, loading, loggedIn } = useUser();
   const jsonData = JSON.parse(blog.body);
-  return (
-    <div>
-      <Header/>
-      <Editor readOnly={true} data={jsonData} />
-    </div>
-  );
+
+  useEffect(() => {
+    if (!loggedIn) {
+      Router.replace("/signIn");
+    }
+  }, [loggedIn]);
+
+  const onDeleteClick = () => {
+    articleDelete(blog.id);
+    Router.replace("/home");
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+  if (loggedIn && user) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        {user.user_id === blog.user_id ? (
+          <FormButton value="DELETE" onClick={onDeleteClick} />
+        ) : (
+          <></>
+        )}
+        <h1>{blog.title}</h1>
+        <div className={styles.wrap}>
+          <Editor readOnly={true} data={jsonData} />
+        </div>
+      </div>
+    );
+  }
 };
 
 export const getStaticPaths = async () => {

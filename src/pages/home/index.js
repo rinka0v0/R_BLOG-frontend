@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import Loading from "../../components/Loading/index";
 import ArticleList from "../../components/ArticleList";
 import styles from "../../styles/homePage.module.scss";
+import Head from "next/head";
+
 
 const Home = ({ blog }) => {
   const { user, loading, loggedIn } = useUser();
@@ -20,6 +22,9 @@ const Home = ({ blog }) => {
   if (loggedIn && user) {
     return (
       <>
+      <Head>
+        <link rel="shortcut icon" href="/favicon.ico"/>
+      </Head>
         <Header />
         <div className={styles.articleList}>
           {blog.map((article, id) => {
@@ -36,7 +41,6 @@ const Home = ({ blog }) => {
       </>
     );
   }
-  return <div className="container"> Login to get info </div>;
 };
 
 export const getStaticProps = async () => {
