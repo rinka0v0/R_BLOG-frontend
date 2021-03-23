@@ -1,7 +1,7 @@
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-const API_URL = "http://localhost:3000/auth/";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 //post article
 export const post = async ({ title, data }) => {

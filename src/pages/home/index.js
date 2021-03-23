@@ -7,7 +7,6 @@ import ArticleList from "../../components/ArticleList";
 import styles from "../../styles/homePage.module.scss";
 import Head from "next/head";
 
-
 const Home = ({ blog }) => {
   const { user, loading, loggedIn } = useUser();
   useEffect(() => {
@@ -22,9 +21,9 @@ const Home = ({ blog }) => {
   if (loggedIn && user) {
     return (
       <>
-      <Head>
-        <link rel="shortcut icon" href="/favicon.ico"/>
-      </Head>
+        <Head>
+          <link rel="shortcut icon" href="/favicon.ico" />
+        </Head>
         <Header />
         <div className={styles.articleList}>
           {blog.map((article, id) => {
@@ -44,7 +43,7 @@ const Home = ({ blog }) => {
 };
 
 export const getStaticProps = async () => {
-  const API_URL = "http://localhost:3000/auth/";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(API_URL + "blogs");
   const blog = await res.json();
   return {

@@ -50,7 +50,7 @@ export default function Login() {
           value={name}
           onChange={setName}
         />
-        <FormButton value="Sign Up!" />
+        <FormButton value="Sign Up" />
         <p>Already have an account?</p>
         <Link href="/signIn">
           <a className={styles.link}>Sign In</a>
