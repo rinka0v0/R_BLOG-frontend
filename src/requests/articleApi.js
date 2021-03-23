@@ -11,7 +11,6 @@ export const post = async ({ title, data }) => {
       title: title,
       data: stringigyData,
     });
-    console.log(res);
   } catch (error) {
     console.log(error);
   }
@@ -20,7 +19,6 @@ export const post = async ({ title, data }) => {
 export const articleDelete = async (id) => {
   try {
     const res = await axios.get(API_URL + `delete/${id}`);
-    console.log(res);
   } catch (error) {
     console.log(error);
   }

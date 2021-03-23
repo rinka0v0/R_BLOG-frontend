@@ -4,31 +4,17 @@ axios.defaults.withCredentials = true;
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const signup = async ({ name, password }) => {
-  try {
-    const res = await axios.post(API_URL + "signup", {
-      name: name,
-      password: password,
-    });
-    if (res) {
-      console.log("success sign up");
-    } else {
-      console.log("error!!");
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  const res = await axios.post(API_URL + "signup", {
+    name: name,
+    password: password,
+  });
 };
 
-export const login = async ({ name, password }) => {
-  try {
-    const res = await axios.post(API_URL + "login", {
-      name: name,
-      password: password,
-    });
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-  }
+export const signIn = async ({ name, password }) => {
+  const res = await axios.post(API_URL + "login", {
+    name: name,
+    password: password,
+  });
 };
 
 // ユーザー情報を取得
@@ -37,7 +23,6 @@ export const getUser = async () => {
     let res = await axios.get(API_URL + "me");
     return res.data;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };

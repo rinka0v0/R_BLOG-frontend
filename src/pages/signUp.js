@@ -11,6 +11,7 @@ import Router from "next/router";
 export default function Login() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
 
   const { loggedIn, mutate } = useUser();
 
@@ -23,8 +24,14 @@ export default function Login() {
   const onSignupSubmit = async (e) => {
     e.preventDefault();
     if (name && password) {
-      await signup({ name, password });
-      mutate();
+      try {
+        await signup({ name, password });
+        mutate();
+      } catch (error) {
+        setErr("alredyExist");
+      }
+    } else {
+      setErr("length");
     }
   };
 
@@ -51,6 +58,16 @@ export default function Login() {
           onChange={setName}
         />
         <FormButton value="Sign Up" />
+        {err === "length" ? (
+          <div className={styles.error}>
+            Please input user name and password
+          </div>
+        ) : null}
+        {err === "alredyExist" ? (
+          <div className={styles.error}>
+            The name is already in use.
+          </div>
+        ) : null}
         <p>Already have an account?</p>
         <Link href="/signIn">
           <a className={styles.link}>Sign In</a>
