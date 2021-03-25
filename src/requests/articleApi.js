@@ -6,10 +6,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 //post article
 export const post = async ({ title, data }) => {
   try {
-    const stringigyData = JSON.stringify(data);
     const res = await axios.post(API_URL + "post", {
       title: title,
-      data: stringigyData,
+      data: data,
     });
   } catch (error) {
     console.log(error);
