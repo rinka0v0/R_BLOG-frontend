@@ -7,14 +7,19 @@ import Loading from "../../../components/Loading";
 import Router from "next/router";
 import FormButton from "../../../components/FormButton";
 import { articleDelete } from "../../../requests/articleApi";
+import { EditorState, convertFromRaw } from "draft-js";
+import DraftEditor from "../../../components/DraftEditor/index";
 
-const Editor = dynamic(() => import("../../../components/Editor/index"), {
+const Wysiwyg = dynamic(() => import("../../../components/Wysiwyg/index"), {
   ssr: false,
 });
 
 const Article = ({ blog }) => {
   const { user, loading, loggedIn } = useUser();
+
   const jsonData = JSON.parse(blog.body);
+  const contentState = convertFromRaw(JSON.parse(blog.body));
+  const editorState = EditorState.createWithContent(contentState);
 
   useEffect(() => {
     if (!loggedIn) {
@@ -41,7 +46,8 @@ const Article = ({ blog }) => {
         )}
         <h1>{blog.title}</h1>
         <div className={styles.wrap}>
-          <Editor readOnly={true} data={jsonData} />
+          <DraftEditor readOnly={true} data={editorState} />
+          <Wysiwyg readOnly={true} data={editorState} />
         </div>
       </div>
     );
@@ -56,7 +62,7 @@ export const getStaticPaths = async () => {
     const stringId = blog.id.toString();
     return { params: { id: stringId } };
   });
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 };
 
 export const getStaticProps = async ({ params }) => {

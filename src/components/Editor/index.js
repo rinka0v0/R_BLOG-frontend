@@ -63,7 +63,7 @@ const Editor = (props) => {
         <></>
       ) : (
         <>
-          <FormButton value="投稿する" onClick={saveData} />
+          <FormButton value="POST" onClick={saveData} />
           <label>
             title
             <input ref={inputEl} type="text" name="title" placeholder="title" />
