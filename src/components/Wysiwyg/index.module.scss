@@ -11,22 +11,23 @@
     height: 2em;
     padding: 1em 0;
     font-size: 1.2em;
+    background-color: #ddd;
+    border: none;
+    border-radius: 3px;
     &:focus {
       outline: none;
     }
   }
   > label {
-    width: 60%;
-    margin: 2em auto;
+    margin: 2em 0;
     display: block;
     text-align: left;
+    max-width: 1000px;
   }
   .editor {
-    border: 1px solid #ddd;
     background-color: #ddd;
     color: #363b48;
-    min-height: 100vh;
-    max-width: 1000px;
-    margin: 0 auto;
+    padding: 1em;border-radius: 3px;
+
   }
 }

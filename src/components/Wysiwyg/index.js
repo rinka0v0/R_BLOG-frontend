@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
-import styles from "../DraftEditor/index.module.scss";
+import styles from "../Wysiwyg/index.module.scss";
 import FormButton from "../FormButton";
 import { post } from "../../requests/articleApi";
 import Router from "next/router";
@@ -30,12 +30,6 @@ const Wysiwyg = (props) => {
     }
   };
 
-  if (props.data) {
-    console.log("データが渡されている");
-  } else {
-    console.log("データが渡されていません");
-  }
-
   return (
     <div className={styles.container}>
       {props.readOnly ? (
@@ -63,26 +57,24 @@ const Wysiwyg = (props) => {
         <></>
       )}
       <div className={styles.editor}>
-        <div style={{ marginLeft: 80 }}>
-          {props.readOnly ? (
-            <Editor
-              editorState={props.data ? props.data : editorState}
-              wrapperClassName="demo-wrapper"
-              editorClassName="demo-editor"
-              onEditorStateChange={setEditorState}
-              readOnly={props.readOnly}
-              toolbarHidden
-            />
-          ) : (
-            <Editor
-              editorState={props.data ? props.data : editorState}
-              wrapperClassName="demo-wrapper"
-              editorClassName="demo-editor"
-              onEditorStateChange={setEditorState}
-              readOnly={props.readOnly}
-            />
-          )}
-        </div>
+        {props.readOnly ? (
+          <Editor
+            editorState={props.data ? props.data : editorState}
+            wrapperClassName="demo-wrapper"
+            editorClassName="demo-editor"
+            onEditorStateChange={setEditorState}
+            readOnly={props.readOnly}
+            toolbarHidden
+          />
+        ) : (
+          <Editor
+            editorState={props.data ? props.data : editorState}
+            wrapperClassName="demo-wrapper"
+            editorClassName="demo-editor"
+            onEditorStateChange={setEditorState}
+            readOnly={props.readOnly}
+          />
+        )}
       </div>
     </div>
   );

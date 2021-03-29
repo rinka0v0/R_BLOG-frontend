@@ -1,0 +1,14 @@
+.container {
+  padding: 1em;
+  border: 1px solid #363b48;
+  background-color: #ddd;
+  color: #363b48;
+  padding: 1em;
+  .name {
+    margin-left: 1em;
+    font-size: .875em;
+  }
+  .comment {
+    margin-left: 1em;
+  }
+}
