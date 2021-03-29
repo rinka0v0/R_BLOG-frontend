@@ -4,8 +4,9 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/index";
+import styles from "../../styles/form.module.scss"
 
-const Editor = dynamic(() => import("../../components/Editor/index"), {
+const Wysiwyg = dynamic(() => import("../../components/Wysiwyg/index"), {
   ssr: false,
 });
 
@@ -26,11 +27,12 @@ const Post = () => {
     return (
       <>
         <Header />
-        <Editor readOnly={false} />
+        <div className={styles.post}>
+          <Wysiwyg readOnly={false} />
+        </div>
       </>
     );
   }
-  return <div className="container"> Login to get info </div>;
 };
 
 export default Post;

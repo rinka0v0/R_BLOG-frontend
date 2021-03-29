@@ -7,14 +7,23 @@ import Loading from "../../../components/Loading";
 import Router from "next/router";
 import FormButton from "../../../components/FormButton";
 import { articleDelete } from "../../../requests/articleApi";
+import { EditorState, convertFromRaw } from "draft-js";
+import CommentList from "../../../components/CommentList/index";
 
-const Editor = dynamic(() => import("../../../components/Editor/index"), {
+const Wysiwyg = dynamic(() => import("../../../components/Wysiwyg/index"), {
+  ssr: false,
+});
+const Comment = dynamic(() => import("../../../components/Comment/index"), {
   ssr: false,
 });
 
-const Article = ({ blog }) => {
+const Article = ({ blog, comment }) => {
   const { user, loading, loggedIn } = useUser();
-  const jsonData = JSON.parse(blog.body);
+  const contentState = convertFromRaw(JSON.parse(blog.body));
+  const editorState = EditorState.createWithContent(contentState);
+
+  // コメント一覧
+  const comments = comment.results;
 
   useEffect(() => {
     if (!loggedIn) {
@@ -40,9 +49,24 @@ const Article = ({ blog }) => {
           <></>
         )}
         <h1>{blog.title}</h1>
-        <div className={styles.wrap}>
-          <Editor readOnly={true} data={jsonData} />
+        <Wysiwyg readOnly={true} data={editorState} />
+        <div className={styles.comment}>
+          <h2>Comment</h2>
+          {comments === undefined ? (
+            <></>
+          ) : (
+            comments.map((comment, id) => {
+              return (
+                <CommentList
+                  comment={comment.text}
+                  user_name={comment.user_id}
+                  key={id}
+                />
+              );
+            })
+          )}
         </div>
+        <Comment blog_id={blog.id} />
       </div>
     );
   }
@@ -56,7 +80,7 @@ export const getStaticPaths = async () => {
     const stringId = blog.id.toString();
     return { params: { id: stringId } };
   });
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 };
 
 export const getStaticProps = async ({ params }) => {
@@ -64,7 +88,11 @@ export const getStaticProps = async ({ params }) => {
   const res = await fetch(`http://localhost:3000/auth/blogs/${id}`);
   const json = await res.json();
   const blog = json.results[0];
-  return { props: { blog } };
+
+  const commentRes = await fetch(`http://localhost:3000/auth/comment/${id}`);
+  const comment = await commentRes.json();
+
+  return { props: { blog, comment }, revalidate: 1 };
 };
 
 export default Article;

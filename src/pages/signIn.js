@@ -4,13 +4,15 @@ import FormButton from "../components/FormButton/index";
 import FormInput from "../components/FormInput/index";
 import Router from "next/router";
 import useUser from "../data/useUser";
-import { login } from "../requests/userApi";
+import { signIn } from "../requests/userApi";
 import Loading from "../components/Loading/index";
 import styles from "../styles/form.module.scss";
 
 export default function Login() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
+
   const { loggedIn, mutate } = useUser();
 
   useEffect(() => {
@@ -22,8 +24,14 @@ export default function Login() {
   const onLoginSubmit = async (e) => {
     e.preventDefault();
     if (name && password) {
-      await login({ name, password });
-      mutate();
+      try {
+        await signIn({ name, password });
+        mutate();
+      } catch (error) {
+        setErr("notFound");
+      }
+    } else {
+      setErr("length");
     }
   };
   if (loggedIn) {
@@ -31,7 +39,7 @@ export default function Login() {
   }
   return (
     <>
-      <form method="post" onSubmit={onLoginSubmit} className={styles.form}>
+      <form method="post" onSubmit={onLoginSubmit} className={styles.signIn}>
         <h1>SIGN IN</h1>
         <FormInput
           label="password"
@@ -48,10 +56,20 @@ export default function Login() {
           onChange={setName}
         />
         <FormButton value="Sign in" />
-      <p>Don't have an account?</p>
-      <Link href="/signUp">
-        <a className={styles.link}>Sign Up</a>
-      </Link>
+        {err === "length" ? (
+          <div className={styles.error}>
+            Please input user name and password
+          </div>
+        ) : null}
+        {err === "notFound" ? (
+          <div className={styles.error}>not found accont</div>
+        ) : null}
+        <div>
+          <p>Don't have an account?</p>
+          <Link href="/signUp">
+            <a className={styles.link}>Sign Up</a>
+          </Link>
+        </div>
       </form>
     </>
   );
