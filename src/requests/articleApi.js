@@ -22,3 +22,16 @@ export const articleDelete = async (id) => {
     console.log(error);
   }
 };
+
+export const postComment = async ({ comment, blog_id }) => {
+  console.log(comment);
+  console.log(blog_id);
+  try {
+    const res = await axios.post(API_URL + "postComment", {
+      text: comment,
+      blog_id: blog_id,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

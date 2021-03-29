@@ -4,7 +4,7 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/index";
-import DraftEditor from "../../components/DraftEditor/index";
+import styles from "../../styles/form.module.scss"
 
 const Wysiwyg = dynamic(() => import("../../components/Wysiwyg/index"), {
   ssr: false,
@@ -27,8 +27,9 @@ const Post = () => {
     return (
       <>
         <Header />
-        <DraftEditor readOnly={false} />
-        <Wysiwyg readOnly={false} />
+        <div className={styles.post}>
+          <Wysiwyg readOnly={false} />
+        </div>
       </>
     );
   }

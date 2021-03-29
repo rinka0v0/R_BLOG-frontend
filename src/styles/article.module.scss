@@ -1,12 +1,20 @@
 .container {
+  width: 90%;
+  margin: 0 auto;
   input[type="submit"] {
     margin: 1em 2em 1em auto;
   }
   h1 {
-    width: 80%;
-    margin: 0 auto;
+    margin: 0 auto 1em;
+    padding: 1em;
   }
-  .wrap {
-    margin-top: 1em;
+  .comment {
+    color: #363b48;
+    background-color: #ddd;
+    h2 {
+      border: 1px solid #363b48;
+      padding: 1em;
+      margin-bottom: 0;
+    }
   }
 }
