@@ -39,7 +39,7 @@ export default function Login() {
   }
   return (
     <>
-      <form method="post" onSubmit={onLoginSubmit} className={styles.form}>
+      <form method="post" onSubmit={onLoginSubmit} className={styles.signIn}>
         <h1>SIGN IN</h1>
         <FormInput
           label="password"
@@ -64,10 +64,12 @@ export default function Login() {
         {err === "notFound" ? (
           <div className={styles.error}>not found accont</div>
         ) : null}
-        <p>Don't have an account?</p>
-        <Link href="/signUp">
-          <a className={styles.link}>Sign Up</a>
-        </Link>
+        <div>
+          <p>Don't have an account?</p>
+          <Link href="/signUp">
+            <a className={styles.link}>Sign Up</a>
+          </Link>
+        </div>
       </form>
     </>
   );

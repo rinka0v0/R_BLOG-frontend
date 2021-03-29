@@ -41,7 +41,7 @@ export default function Login() {
 
   return (
     <>
-      <form method="post" onSubmit={onSignupSubmit} className={styles.form}>
+      <form method="post" onSubmit={onSignupSubmit} className={styles.signUp}>
         <h1>SIGN UP</h1>
         <FormInput
           label="password"
