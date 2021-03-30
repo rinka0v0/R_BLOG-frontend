@@ -16,6 +16,7 @@ const CommentList = (props) => {
         readOnly='true'
         toolbarHidden
       />
+      <p className={styles.time}>{props.created}</p>
     </div>
   );
 };

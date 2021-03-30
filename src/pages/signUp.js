@@ -64,14 +64,14 @@ export default function Login() {
           </div>
         ) : null}
         {err === "alredyExist" ? (
-          <div className={styles.error}>
-            The name is already in use.
-          </div>
+          <div className={styles.error}>The name is already in use.</div>
         ) : null}
-        <p>Already have an account?</p>
-        <Link href="/signIn">
-          <a className={styles.link}>Sign In</a>
-        </Link>
+        <div>
+          <p>Already have an account?</p>
+          <Link href="/signIn">
+            <a className={styles.link}>Sign In</a>
+          </Link>
+        </div>
       </form>
     </>
   );

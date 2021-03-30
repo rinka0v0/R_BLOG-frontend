@@ -17,6 +17,8 @@ const Comment = dynamic(() => import("../../../components/Comment/index"), {
   ssr: false,
 });
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const Article = ({ blog, comment }) => {
   const { user, loading, loggedIn } = useUser();
   const contentState = convertFromRaw(JSON.parse(blog.body));
@@ -59,7 +61,8 @@ const Article = ({ blog, comment }) => {
               return (
                 <CommentList
                   comment={comment.text}
-                  user_name={comment.user_id}
+                  user_name={comment.name}
+                  created={comment.created}
                   key={id}
                 />
               );
@@ -73,23 +76,25 @@ const Article = ({ blog, comment }) => {
 };
 
 export const getStaticPaths = async () => {
-  const res = await fetch("http://localhost:3000/auth/blogs");
+  const res = await fetch(API_URL + "blogs");
   const json = await res.json();
   const blogs = json.results;
   const paths = blogs.map((blog) => {
     const stringId = blog.id.toString();
     return { params: { id: stringId } };
   });
-  return { paths, fallback: "blocking" };
+  return { paths: [], fallback: "blocking" };
 };
 
 export const getStaticProps = async ({ params }) => {
   const id = params.id;
-  const res = await fetch(`http://localhost:3000/auth/blogs/${id}`);
+  //記事をSSGで取得
+  const res = await fetch(API_URL + `blogs/${id}`);
   const json = await res.json();
   const blog = json.results[0];
 
-  const commentRes = await fetch(`http://localhost:3000/auth/comment/${id}`);
+  //コメントをSSGで取得
+  const commentRes = await fetch(API_URL + `comment/${id}`);
   const comment = await commentRes.json();
 
   return { props: { blog, comment }, revalidate: 1 };
