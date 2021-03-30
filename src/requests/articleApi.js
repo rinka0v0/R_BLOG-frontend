@@ -24,8 +24,6 @@ export const articleDelete = async (id) => {
 };
 
 export const postComment = async ({ comment, blog_id }) => {
-  console.log(comment);
-  console.log(blog_id);
   try {
     const res = await axios.post(API_URL + "postComment", {
       text: comment,

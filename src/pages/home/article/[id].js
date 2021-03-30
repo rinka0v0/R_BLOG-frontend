@@ -21,7 +21,6 @@ const Article = ({ blog, comment }) => {
   const { user, loading, loggedIn } = useUser();
   const contentState = convertFromRaw(JSON.parse(blog.body));
   const editorState = EditorState.createWithContent(contentState);
-  console.log(user)
 
   // コメント一覧
   const comments = comment.results;
@@ -60,7 +59,8 @@ const Article = ({ blog, comment }) => {
               return (
                 <CommentList
                   comment={comment.text}
-                  user_name={comment.user_id}
+                  user_name={comment.name}
+                  created={comment.created}
                   key={id}
                 />
               );
@@ -86,10 +86,12 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const id = params.id;
+  //記事をSSGで取得
   const res = await fetch(`http://localhost:3000/auth/blogs/${id}`);
   const json = await res.json();
   const blog = json.results[0];
 
+  //コメントをSSGで取得
   const commentRes = await fetch(`http://localhost:3000/auth/comment/${id}`);
   const comment = await commentRes.json();
 
