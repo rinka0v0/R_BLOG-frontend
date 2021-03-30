@@ -21,6 +21,7 @@ const Article = ({ blog, comment }) => {
   const { user, loading, loggedIn } = useUser();
   const contentState = convertFromRaw(JSON.parse(blog.body));
   const editorState = EditorState.createWithContent(contentState);
+  console.log(user)
 
   // コメント一覧
   const comments = comment.results;
