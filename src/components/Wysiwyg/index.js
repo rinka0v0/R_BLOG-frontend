@@ -16,14 +16,15 @@ const Wysiwyg = (props) => {
   const [err, setErr] = useState("");
 
   const saveData = async () => {
-    const data = editorState.getCurrentConte;
-    if (title && data) {
+    const data = editorState.getCurrentContent();
+    if (title.trim().length !== 0 && data) {
       try {
         const content = JSON.stringify(convertToRaw(data));
         const res = await post({ title: title, data: content });
         Router.replace("/home");
       } catch (error) {
         console.log(error);
+        setErr("err");
       }
     } else {
       setErr("lack");
@@ -44,10 +45,10 @@ const Wysiwyg = (props) => {
               name="title"
               placeholder="title"
               value={title}
-              maxLength="30"
+              maxLength="50"
               onChange={(e) => {
                 setTitle(e.target.value);
-                console.log(title);
+                console.log(title.trim().length);
               }}
             />
           </label>
@@ -56,8 +57,8 @@ const Wysiwyg = (props) => {
       {err === "lack" ? (
         <div className={styles.error}>Please input title and article</div>
       ) : null}
-      {err === "length" ? (
-        <div className={styles.error}>Title is 30 characters or less</div>
+      {err === "err" ? (
+        <div className={styles.error}>Post failed...</div>
       ) : null}
       <div className={styles.editor}>
         {props.readOnly ? (
