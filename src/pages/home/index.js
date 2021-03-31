@@ -9,7 +9,7 @@ import Head from "next/head";
 import FormButton from "../../components/FormButton/index";
 
 const Home = ({ blog }) => {
-  const [count, setCount] = useState(2);
+  const [count, setCount] = useState(10);
   const blogs = blog.map((blog, index) => {
     return (
       <ArticleList
@@ -23,7 +23,7 @@ const Home = ({ blog }) => {
 
   const handleShowMorePosts = () => {
     setCount((pre) => {
-      setCount(pre + 2);
+      setCount(pre + 10);
     });
   };
 
@@ -44,23 +44,19 @@ const Home = ({ blog }) => {
           <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <h1 className={styles.title}>Latest articles</h1>
-        <div className={styles.articleList}>
-          {/* {blog.map((article, id) => {
-            return (
-              <ArticleList
-                title={article.title}
-                key={id}
-                url={`/home/article/${article.id}`}
-                author={article.name}
-              />
-            );
-          })} */}
-          <ul>{blogs.slice(0, count)}</ul>
+        <div className={styles.container}>
+          <h1 className={styles.title}>Latest articles</h1>
+          <div className={styles.articleList}>
+            {blogs.slice(0, count)}
+          </div>
           {blog.length > count ? (
-            <FormButton value="MORE" onClick={handleShowMorePosts} />
+            <FormButton
+              value="MORE"
+              onClick={handleShowMorePosts}
+              className={styles.moreBtn}
+            />
           ) : (
-            ""
+            null
           )}
         </div>
       </>

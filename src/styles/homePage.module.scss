@@ -1,10 +1,15 @@
-.title {
-  margin: 1em ;
-  text-align: center;
-}
-.articleList {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 3em;
+.container {
+  .title {
+    margin: 1em;
+    text-align: center;
+  }
+  .articleList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 3em;
+  }
+  input[type='submit'] {
+    margin: 1em auto;
+  }
 }

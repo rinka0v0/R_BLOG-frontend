@@ -16,7 +16,7 @@ const Wysiwyg = (props) => {
   const [err, setErr] = useState("");
 
   const saveData = async () => {
-    const data = editorState.getCurrentContent();
+    const data = editorState.getCurrentConte;
     if (title && data) {
       try {
         const content = JSON.stringify(convertToRaw(data));
@@ -44,18 +44,21 @@ const Wysiwyg = (props) => {
               name="title"
               placeholder="title"
               value={title}
+              maxLength="30"
               onChange={(e) => {
                 setTitle(e.target.value);
+                console.log(title);
               }}
             />
           </label>
         </>
       )}
       {err === "lack" ? (
-        <div className={styles.error}>Please input title </div>
-      ) : (
-        <></>
-      )}
+        <div className={styles.error}>Please input title and article</div>
+      ) : null}
+      {err === "length" ? (
+        <div className={styles.error}>Title is 30 characters or less</div>
+      ) : null}
       <div className={styles.editor}>
         {props.readOnly ? (
           <Editor
