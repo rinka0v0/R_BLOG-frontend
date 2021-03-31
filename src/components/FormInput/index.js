@@ -8,6 +8,7 @@ const FormInput = (props) => {
         name={props.name}
         type={props.type}
         value={props.value}
+        maxLength={props.maxLength}
         onChange={(e) => {
           props.onChange(e.target.value);
         }}
