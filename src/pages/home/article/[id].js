@@ -37,7 +37,10 @@ const Article = ({ blog, comment }) => {
     articleDelete(blog.id);
     Router.replace("/home");
   };
-
+  
+  if (!loggedIn) {
+    return <Loading />
+  }
   if (loading) {
     return <Loading />;
   }

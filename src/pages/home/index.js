@@ -33,7 +33,9 @@ const Home = ({ blog }) => {
       Router.replace("/signIn");
     }
   }, [loggedIn]);
-
+  if (!loggedIn) {
+    return <Loading />
+  }
   if (loading) {
     return <Loading />;
   }

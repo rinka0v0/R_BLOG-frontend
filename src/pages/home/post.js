@@ -20,6 +20,9 @@ const Post = () => {
     }
   }, [loggedIn]);
 
+  if (!loggedIn) {
+    return <Loading />
+  }
   if (loading) {
     return <Loading />;
   }

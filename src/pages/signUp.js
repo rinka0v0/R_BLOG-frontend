@@ -13,7 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
 
-  const { loggedIn, mutate } = useUser();
+  const { loggedIn, mutate, loading } = useUser();
 
   useEffect(() => {
     if (loggedIn) {
@@ -36,6 +36,9 @@ export default function Login() {
   };
 
   if (loggedIn) {
+    return <Loading />;
+  }
+  if (loading) {
     return <Loading />;
   }
 
