@@ -2,7 +2,7 @@ import Header from "../../../components/Header/index";
 import dynamic from "next/dynamic";
 import styles from "../../../styles/article.module.scss";
 import useUser from "../../../data/useUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
 import Router from "next/router";
 import FormButton from "../../../components/FormButton";
@@ -21,11 +21,38 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Article = ({ blog, comment }) => {
   const { user, loading, loggedIn } = useUser();
+
   const contentState = convertFromRaw(JSON.parse(blog.body));
   const editorState = EditorState.createWithContent(contentState);
 
-  // コメント一覧
-  const comments = comment.results;
+  const [count, setCount] = useState(5);
+
+  // 記事にコメントが存在するか判断する関数
+  const judgeComments = (comment) => {
+    if (comment.results === undefined) {
+      return undefined;
+    } else {
+      const comments = comment.results.map((comment, index) => {
+        return (
+          <CommentList
+            comment={comment.text}
+            user_name={comment.name}
+            created={comment.created}
+            key={index}
+          />
+        );
+      });
+      return comments;
+    }
+  };
+  const comments = judgeComments(comment);
+
+  console.log(comments);
+  const handleShowMorePosts = () => {
+    setCount((pre) => {
+      setCount(pre + 5);
+    });
+  };
 
   useEffect(() => {
     if (!loggedIn) {
@@ -38,6 +65,9 @@ const Article = ({ blog, comment }) => {
     Router.replace("/home");
   };
 
+  if (!loggedIn) {
+    return <Loading />;
+  }
   if (loading) {
     return <Loading />;
   }
@@ -54,21 +84,15 @@ const Article = ({ blog, comment }) => {
         <Wysiwyg readOnly={true} data={editorState} />
         <div className={styles.comment}>
           <h2>Comment</h2>
-          {comments === undefined ? (
-            <></>
-          ) : (
-            comments.map((comment, id) => {
-              return (
-                <CommentList
-                  comment={comment.text}
-                  user_name={comment.name}
-                  created={comment.created}
-                  key={id}
-                />
-              );
-            })
-          )}
+          {comments !== undefined ? comments.slice(0, count) : <></>}
         </div>
+        {comments !== undefined && comments.length > count ? (
+          <FormButton
+            value="MORE"
+            onClick={handleShowMorePosts}
+            className={styles.moreBtn}
+          />
+        ) : null}
         <Comment blog_id={blog.id} />
       </div>
     );
@@ -96,7 +120,6 @@ export const getStaticProps = async ({ params }) => {
   //コメントをSSGで取得
   const commentRes = await fetch(API_URL + `comment/${id}`);
   const comment = await commentRes.json();
-
   return { props: { blog, comment }, revalidate: 1 };
 };
 
