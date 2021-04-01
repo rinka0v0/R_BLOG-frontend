@@ -34,7 +34,7 @@ const Home = ({ blog }) => {
     }
   }, [loggedIn]);
   if (!loggedIn) {
-    return <Loading />
+    return <Loading />;
   }
   if (loading) {
     return <Loading />;
@@ -48,18 +48,14 @@ const Home = ({ blog }) => {
         <Header />
         <div className={styles.container}>
           <h1 className={styles.title}>Latest articles</h1>
-          <div className={styles.articleList}>
-            {blogs.slice(0, count)}
-          </div>
+          <div className={styles.articleList}>{blogs.slice(0, count)}</div>
           {blog.length > count ? (
             <FormButton
               value="MORE"
               onClick={handleShowMorePosts}
               className={styles.moreBtn}
             />
-          ) : (
-            null
-          )}
+          ) : null}
         </div>
       </>
     );

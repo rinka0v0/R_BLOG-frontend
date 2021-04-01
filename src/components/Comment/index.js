@@ -4,7 +4,6 @@ import "draft-js/dist/Draft.css";
 import styles from "../Comment/index.module.scss";
 import FormButton from "../FormButton";
 import { postComment } from "../../requests/articleApi";
-import Router from "next/router";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -19,7 +18,6 @@ const Comment = (props) => {
     if (data) {
       try {
         const comment = JSON.stringify(convertToRaw(data));
-        // comment api に変える
         const res = await postComment({ comment: comment , blog_id: props.blog_id});
         // Router.replace("/home");
       } catch (error) {

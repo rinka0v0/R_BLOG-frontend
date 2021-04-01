@@ -12,6 +12,7 @@
   overflow: hidden;
   border: 1px solid #ddd;
   position: relative;
+  cursor: pointer;
   &:hover {
     transition: all 0.2s ease-out;
     top: -4px;

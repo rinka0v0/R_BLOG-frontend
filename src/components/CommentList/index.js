@@ -1,5 +1,4 @@
 import { convertFromRaw, Editor, EditorState } from "draft-js";
-import { useState } from "react";
 import styles from "../CommentList/index.module.scss";
 
 const CommentList = (props) => {
