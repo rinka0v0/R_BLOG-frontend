@@ -3,7 +3,7 @@ import { EditorState, convertToRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "../Wysiwyg/index.module.scss";
 import FormButton from "../FormButton";
-import { post } from "../../requests/articleApi";
+import { postArticle } from "../../requests/articleApi";
 import Router from "next/router";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -20,7 +20,7 @@ const Wysiwyg = (props) => {
     if (title.trim().length !== 0 && data) {
       try {
         const content = JSON.stringify(convertToRaw(data));
-        const res = await post({ title: title, data: content });
+        const res = await postArticle({ title: title, data: content });
         Router.replace("/home");
       } catch (error) {
         console.log(error);
