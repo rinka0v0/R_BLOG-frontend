@@ -19,7 +19,7 @@ const Comment = (props) => {
       try {
         const comment = JSON.stringify(convertToRaw(data));
         const res = await postComment({ comment: comment , blog_id: props.blog_id});
-        // Router.replace("/home");
+        props.mutate()
       } catch (error) {
         console.log(error);
       }
