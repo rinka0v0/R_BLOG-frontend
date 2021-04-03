@@ -2,13 +2,13 @@ import Header from "../../../components/Header/index";
 import dynamic from "next/dynamic";
 import styles from "../../../styles/article.module.scss";
 import useUser from "../../../data/useUser";
+import useCommentListGet from "../../../data/useCommentListGet";
 import { useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
 import Router from "next/router";
 import FormButton from "../../../components/FormButton";
 import { articleDelete } from "../../../requests/articleApi";
 import { EditorState, convertFromRaw } from "draft-js";
-import CommentList from "../../../components/CommentList/index";
 
 const Wysiwyg = dynamic(() => import("../../../components/Wysiwyg/index"), {
   ssr: false,
@@ -19,35 +19,15 @@ const Comment = dynamic(() => import("../../../components/Comment/index"), {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const Article = ({ blog, comment }) => {
+const Article = ({ blog, id }) => {
   const { user, loading, loggedIn } = useUser();
+  const { error, comments, commentMutate } = useCommentListGet(id);
 
   const contentState = convertFromRaw(JSON.parse(blog.body));
   const editorState = EditorState.createWithContent(contentState);
 
   const [count, setCount] = useState(5);
 
-  // 記事にコメントが存在するか判断する関数
-  const judgeComments = (comment) => {
-    if (comment.results === undefined) {
-      return undefined;
-    } else {
-      const comments = comment.results.map((comment, index) => {
-        return (
-          <CommentList
-            comment={comment.text}
-            user_name={comment.name}
-            created={comment.created}
-            key={index}
-          />
-        );
-      });
-      return comments;
-    }
-  };
-  const comments = judgeComments(comment);
-
-  console.log(comments);
   const handleShowMorePosts = () => {
     setCount((pre) => {
       setCount(pre + 5);
@@ -55,6 +35,7 @@ const Article = ({ blog, comment }) => {
   };
 
   useEffect(() => {
+    // commentMutate();
     if (!loggedIn) {
       Router.replace("/signIn");
     }
@@ -93,7 +74,7 @@ const Article = ({ blog, comment }) => {
             className={styles.moreBtn}
           />
         ) : null}
-        <Comment blog_id={blog.id} />
+        <Comment blog_id={blog.id} mutate={commentMutate}/>
       </div>
     );
   }
@@ -116,11 +97,7 @@ export const getStaticProps = async ({ params }) => {
   const res = await fetch(API_URL + `blogs/${id}`);
   const json = await res.json();
   const blog = json.results[0];
-
-  //コメントをSSGで取得
-  const commentRes = await fetch(API_URL + `comment/${id}`);
-  const comment = await commentRes.json();
-  return { props: { blog, comment }, revalidate: 1 };
+  return { props: { blog, id }, revalidate: 1 };
 };
 
 export default Article;

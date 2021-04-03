@@ -33,3 +33,13 @@ export const postComment = async ({ comment, blog_id }) => {
     console.log(error);
   }
 };
+
+// コメント一覧を取得
+export const getCommentList = async (article_id) => {
+  try {
+    let res = await axios.get(API_URL + `comment/${article_id}`);
+    return res.data.results;
+  } catch (error) {
+    console.log(error);
+  }
+};
