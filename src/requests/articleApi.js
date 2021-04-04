@@ -43,3 +43,14 @@ export const getCommentList = async (article_id) => {
     console.log(error);
   }
 };
+
+// コメントを削除
+export const commentDelete = async (comment_id) => {
+  try {
+    const res = await axios.delete(API_URL + "comment", {
+      data: { id: comment_id },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

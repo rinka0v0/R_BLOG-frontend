@@ -21,7 +21,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Article = ({ blog, id }) => {
   const { user, loading, loggedIn } = useUser();
-  const { error, comments, commentMutate } = useCommentListGet(id);
+  const { error, comments, commentMutate } = useCommentListGet(
+    id,
+    user.user_id
+  );
 
   const contentState = convertFromRaw(JSON.parse(blog.body));
   const editorState = EditorState.createWithContent(contentState);
@@ -35,7 +38,7 @@ const Article = ({ blog, id }) => {
   };
 
   useEffect(() => {
-    // commentMutate();
+    commentMutate();
     if (!loggedIn) {
       Router.replace("/signIn");
     }
@@ -74,7 +77,7 @@ const Article = ({ blog, id }) => {
             className={styles.moreBtn}
           />
         ) : null}
-        <Comment blog_id={blog.id} mutate={commentMutate}/>
+        <Comment blog_id={blog.id} mutate={commentMutate} />
       </div>
     );
   }

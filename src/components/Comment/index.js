@@ -18,8 +18,9 @@ const Comment = (props) => {
     if (data) {
       try {
         const comment = JSON.stringify(convertToRaw(data));
-        const res = await postComment({ comment: comment , blog_id: props.blog_id});
-        props.mutate()
+        await postComment({ comment: comment, blog_id: props.blog_id });
+        setEditorState(() => EditorState.createEmpty());
+        props.mutate();
       } catch (error) {
         console.log(error);
       }
