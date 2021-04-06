@@ -1,36 +1,37 @@
 .nav {
-  margin: 0 2em 0 auto;
-  width: 20em;
-  > ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-    line-height: 80px;
-    > li {
-      display: block;
-      width: 100px;
-      height: 80px;
-      margin: auto 0;
-      > a {
+    margin: 0 2em 0 auto;
+    width: 20em;
+    > ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+      line-height: 80px;
+      > li {
         display: block;
-        text-align: center;
-        position: relative;
-        &::after {
-          position: absolute;
-          bottom: 25%;
-          left: 50%;
-          width: 0;
-          height: 1px;
-          background: #ddd;
-          content: "";
-          transition: 0.3s;
-          transform: translateX(-50%);
-        }
-        &:hover::after {
-          width: 80%;
+        width: 100px;
+        height: 80px;
+        margin: auto 0;
+        > a {
+          display: block;
+          text-align: center;
+          position: relative;
+          &::after {
+            position: absolute;
+            bottom: 25%;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: #ddd;
+            content: "";
+            transition: 0.3s;
+            transform: translateX(-50%);
+          }
+          &:hover::after {
+            width: 80%;
+          }
         }
       }
     }
   }
-}
+  
