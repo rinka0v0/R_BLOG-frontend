@@ -1,4 +1,4 @@
-import Header from "../../components/Header/index";
+import NavList from "../../components/NavList/index";
 import useUser from "../../data/useUser";
 import Router from "next/router";
 import { useEffect, useState } from "react";
@@ -45,7 +45,7 @@ const Home = ({ blog }) => {
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
-        <Header />
+        <NavList />
         <div className={styles.container}>
           <h1 className={styles.title}>Latest articles</h1>
           <div className={styles.articleList}>{blogs.slice(0, count)}</div>

@@ -1,4 +1,4 @@
-import Header from "../../components/Header/index";
+import NavList from "../../components/NavList/index";
 import useUser from "../../data/useUser";
 import Router from "next/router";
 import { useEffect, useState } from "react";
@@ -29,7 +29,7 @@ const Post = () => {
   if (loggedIn && user) {
     return (
       <>
-        <Header />
+        <NavList />
         <div className={styles.post}>
           <Wysiwyg readOnly={false} />
         </div>

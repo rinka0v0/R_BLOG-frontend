@@ -1,4 +1,4 @@
-import Header from "../../components/Header/index";
+import NavList from "../../components/NavList/index";
 import Router from "next/router";
 import { useEffect } from "react";
 import useUser from "../../data/useUser";
@@ -31,7 +31,7 @@ const Logout = () => {
   if (loggedIn && user) {
     return (
       <>
-        <Header></Header>
+        <NavList/>
         <form className={styles.signOut}>
           <h1>Do you want to sign out?</h1>
           <FormButton
