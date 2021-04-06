@@ -1,4 +1,4 @@
-import Header from "../../../components/Header/index";
+import NavList from "../../../components/NavList/index";
 import dynamic from "next/dynamic";
 import styles from "../../../styles/article.module.scss";
 import useUser from "../../../data/useUser";
@@ -58,7 +58,7 @@ const Article = ({ blog, id }) => {
   if (loggedIn && user) {
     return (
       <div className={styles.container}>
-        <Header />
+        <NavList />
         {user.user_id === blog.user_id ? (
           <FormButton value="DELETE" onClick={onDeleteClick} />
         ) : (
