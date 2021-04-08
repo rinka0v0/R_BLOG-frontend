@@ -8,7 +8,7 @@ import { signIn } from "../requests/userApi";
 import Loading from "../components/Loading/index";
 import styles from "../styles/form.module.scss";
 
-export default function Login() {
+export default function SignIn() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
@@ -25,8 +25,10 @@ export default function Login() {
     e.preventDefault();
     if (name && password) {
       try {
+        console.log("push!!");
         await signIn({ name, password });
         mutate();
+        console.log("mutate 完了");
       } catch (error) {
         setErr("notFound");
       }
