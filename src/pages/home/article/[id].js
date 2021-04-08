@@ -84,7 +84,8 @@ const Article = ({ blog, id }) => {
 };
 
 export const getStaticPaths = async () => {
-  const res = await fetch(API_URL + "blogs");
+  // const res = await fetch(API_URL + "blogs");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}blogs`);
   const json = await res.json();
   const blogs = json.results;
   const paths = blogs.map((blog) => {
@@ -97,7 +98,8 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   const id = params.id;
   //記事をSSGで取得
-  const res = await fetch(API_URL + `blogs/${id}`);
+  // const res = await fetch(API_URL + `blogs/${id}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}blogs/${id}`);
   const json = await res.json();
   const blog = json.results[0];
   return { props: { blog, id }, revalidate: 1 };
