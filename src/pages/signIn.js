@@ -25,10 +25,8 @@ export default function SignIn() {
     e.preventDefault();
     if (name && password) {
       try {
-        console.log("push!!");
         await signIn({ name, password });
         mutate();
-        console.log("mutate 完了");
       } catch (error) {
         setErr("notFound");
       }

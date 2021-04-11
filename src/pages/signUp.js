@@ -25,10 +25,8 @@ export default function Login() {
     e.preventDefault();
     if (name && password) {
       try {
-        console.log("signUp button pushed!!");
         await signup({ name, password });
         mutate();
-        console.log("mutate完了");
       } catch (error) {
         setErr("alredyExist");
       }
