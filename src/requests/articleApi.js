@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth_header";
 
 axios.defaults.withCredentials = true;
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -6,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 //post article
 export const postArticle = async ({ title, data }) => {
   try {
-    const res = await axios.post(API_URL + "post", {
+    const res = await axios.post(API_URL + "postArticle", {
       title: title,
       data: data,
     });
