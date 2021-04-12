@@ -1,5 +1,5 @@
 import LinkButton from "../components/LinkButton/index";
-import styles from "../styles/IndexPage.module.scss";
+import styles from "../styles/indexPage.module.scss";
 import Image from "next/image";
 
 const IndexPage = () => {
