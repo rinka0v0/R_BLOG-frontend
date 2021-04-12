@@ -62,6 +62,10 @@ const Home = ({ blog }) => {
   }
 };
 
+export const getStaticPaths = async () => {
+  return { paths: [], fallback: "blocking" };
+}
+
 export const getStaticProps = async () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(`${process.env.WEBAPP_URL}blogs`);
