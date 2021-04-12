@@ -45,7 +45,7 @@ const Wysiwyg = (props) => {
               name="title"
               placeholder="title"
               value={title}
-              maxLength="50"
+              maxLength="20"
               onChange={(e) => {
                 setTitle(e.target.value);
                 console.log(title.trim().length);
