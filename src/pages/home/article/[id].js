@@ -45,8 +45,10 @@ const Article = ({ blog, id }) => {
   }, [loggedIn]);
 
   const onDeleteClick = () => {
-    articleDelete(blog.id);
-    Router.replace("/home");
+    if (confirm('記事を削除しますか？')) {
+      articleDelete(blog.id);
+      Router.replace("/home");
+    }
   };
 
   if (!loggedIn) {

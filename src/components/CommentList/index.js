@@ -7,9 +7,11 @@ const CommentList = (props) => {
   const contentState = convertFromRaw(JSON.parse(props.comment));
   const editorState = EditorState.createWithContent(contentState);
 
-  const onDeleteClick = async() => {
-    await commentDelete(props.id);
-    props.mutate();
+  const onDeleteClick = async () => {
+    if (confirm("コメントを削除しますか？")) {
+      await commentDelete(props.id);
+      props.mutate();
+    }
   };
 
   return (
