@@ -62,15 +62,10 @@ export const getCommentList = async (article_id) => {
 // コメントを削除
 export const commentDelete = async (comment_id) => {
   try {
-    const res = await axios.delete(
-      API_URL + "comment",
-      {
-        data: { id: comment_id },
-      },
-      {
-        headers: authHeader(),
-      }
-    );
+    const res = await axios.delete(API_URL + "comment", {
+      data: { id: comment_id },
+      headers: authHeader(),
+    });
   } catch (error) {
     console.log(error);
   }
