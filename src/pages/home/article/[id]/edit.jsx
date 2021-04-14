@@ -5,6 +5,7 @@ import Router from "next/router";
 import { useEffect } from "react";
 import Loading from "../../../../components/Loading";
 import useUser from "../../../../data/useUser";
+import NavList from "../../../../components/NavList";
 
 const Wysiwyg = dynamic(() => import("../../../../components/Wysiwyg/index"), {
   ssr: false,
@@ -15,6 +16,8 @@ const EditPage = ({ blog, id }) => {
 
   const contentState = convertFromRaw(JSON.parse(blog.body));
   const editorState = EditorState.createWithContent(contentState);
+
+  console.log(blog)
 
   useEffect(() => {
     if (!loggedIn) {
@@ -31,11 +34,14 @@ const EditPage = ({ blog, id }) => {
   if (loggedIn && user) {
     return (
       <div className={styles.container}>
+        <NavList />
         <Wysiwyg
           readOnly={false}
           data={editorState}
           title={blog.title}
+          blog_id={blog.id}
           btnValue="EDIT"
+          mode='EDIT'
         />
       </div>
     );

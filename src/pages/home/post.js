@@ -31,7 +31,7 @@ const Post = () => {
       <>
         <NavList />
         <div className={styles.post}>
-          <Wysiwyg readOnly={false} btnValue="POST" />
+          <Wysiwyg readOnly={false} btnValue="POST" mode="POST" />
         </div>
       </>
     );

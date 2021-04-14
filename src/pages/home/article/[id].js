@@ -46,15 +46,15 @@ const Article = ({ blog, id }) => {
   }, [loggedIn]);
 
   const onDeleteClick = () => {
-    if (confirm('記事を削除しますか？')) {
+    if (confirm("記事を削除しますか？")) {
       articleDelete(blog.id);
       Router.replace("/home");
     }
   };
 
   const onEditClick = () => {
-    Router.replace(`/home/article/${id}/edit`)
-  }
+    Router.replace(`/home/article/${id}/edit`);
+  };
 
   if (!loggedIn) {
     return <Loading />;
@@ -68,14 +68,14 @@ const Article = ({ blog, id }) => {
         <NavList />
         {user.user_id === blog.user_id ? (
           <>
-          <FormButton value="DELETE" onClick={onDeleteClick} />
-          <FormButton value="EDIT" onClick={onEditClick} />
+            <FormButton value="DELETE" onClick={onDeleteClick} />
+            <FormButton value="EDIT" onClick={onEditClick} />
           </>
         ) : (
           <></>
         )}
         <h1>{blog.title}</h1>
-        <Wysiwyg readOnly={true} data={editorState}/>
+        <Wysiwyg readOnly={true} data={editorState} mode="READ" />
         <div className={styles.comment}>
           <h2>Comment</h2>
           {comments !== undefined ? comments.slice(0, count) : <></>}
