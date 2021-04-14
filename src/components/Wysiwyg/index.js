@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "../Wysiwyg/index.module.scss";
@@ -12,7 +12,15 @@ const Wysiwyg = (props) => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-  const [title, setTitle] = useState("");
+
+  // propsで記事の内容が渡されている場合はエディタにsetする。
+  useEffect(() => {
+    if (props.data) {
+      setEditorState(props.data);
+    }
+  }, []);
+
+  const [title, setTitle] = useState(props.title);
   const [err, setErr] = useState("");
 
   const saveData = async () => {
@@ -37,7 +45,7 @@ const Wysiwyg = (props) => {
         <></>
       ) : (
         <>
-          <FormButton value="POST" onClick={saveData} />
+          <FormButton value={props.btnValue} onClick={saveData} />
           <label>
             title
             <input
@@ -48,7 +56,6 @@ const Wysiwyg = (props) => {
               maxLength="20"
               onChange={(e) => {
                 setTitle(e.target.value);
-                console.log(title.trim().length);
               }}
             />
           </label>
@@ -63,7 +70,7 @@ const Wysiwyg = (props) => {
       <div className={styles.editor}>
         {props.readOnly ? (
           <Editor
-            editorState={props.data ? props.data : editorState}
+            editorState={editorState}
             wrapperClassName="demo-wrapper"
             editorClassName="demo-editor"
             onEditorStateChange={setEditorState}
@@ -72,7 +79,7 @@ const Wysiwyg = (props) => {
           />
         ) : (
           <Editor
-            editorState={props.data ? props.data : editorState}
+            editorState={editorState}
             wrapperClassName="demo-wrapper"
             editorClassName="demo-editor"
             onEditorStateChange={setEditorState}
