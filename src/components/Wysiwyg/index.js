@@ -37,7 +37,7 @@ const Wysiwyg = (props) => {
     } else {
       setErr("lack");
     }
-    console.log('POST!!')
+    console.log("POST!!");
   };
 
   const rePostArticle = async () => {
@@ -58,31 +58,46 @@ const Wysiwyg = (props) => {
     } else {
       setErr("lack");
     }
-    console.log('edit!!')
+    console.log("edit!!");
   };
 
   return (
     <div className={styles.container}>
       {props.mode === "EDIT" ? (
-        <FormButton value="EDIT" onClick={rePostArticle} />
+        <>
+          <FormButton value="EDIT" onClick={rePostArticle} />
+          <label>
+            title
+            <input
+              type="text"
+              name="title"
+              placeholder="title"
+              value={title}
+              maxLength="20"
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+          </label>
+        </>
       ) : null}
       {props.mode === "POST" ? (
-        <FormButton value="POST" onClick={saveArticle} />
-      ) : null}
-      {props.mode === "POST" || props.mode === "EDIT" ? (
-        <label>
-          title
-          <input
-            type="text"
-            name="title"
-            placeholder="title"
-            value={title}
-            maxLength="20"
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          />
-        </label>
+        <>
+          <FormButton value="POST" onClick={saveArticle} />
+          <label>
+            title
+            <input
+              type="text"
+              name="title"
+              placeholder="title"
+              value={title}
+              maxLength="20"
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+          </label>
+        </>
       ) : null}
       {err === "lack" ? (
         <div className={styles.error}>Please input title and article</div>

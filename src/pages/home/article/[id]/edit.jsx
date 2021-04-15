@@ -17,8 +17,6 @@ const EditPage = ({ blog, id }) => {
   const contentState = convertFromRaw(JSON.parse(blog.body));
   const editorState = EditorState.createWithContent(contentState);
 
-  console.log(blog)
-
   useEffect(() => {
     if (!loggedIn) {
       Router.replace("/signIn");
@@ -49,7 +47,6 @@ const EditPage = ({ blog, id }) => {
 };
 
 export const getStaticPaths = async () => {
-  // const res = await fetch(API_URL + "blogs");
   const res = await fetch(`${process.env.WEBAPP_URL}blogs`);
   const json = await res.json();
   const blogs = json.results;
