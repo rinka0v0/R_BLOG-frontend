@@ -19,7 +19,7 @@ const Comment = dynamic(() => import("../../../components/Comment/index"), {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const Article = ({ blog, id }) => {
+const Article = ({ blog, id, createdDate }) => {
   const { user, loading, loggedIn } = useUser();
   const { error, comments, commentMutate } = useCommentListGet(
     id,
@@ -75,6 +75,8 @@ const Article = ({ blog, id }) => {
           <></>
         )}
         <h1>{blog.title}</h1>
+        <p className={styles.autherName}>{blog.name}</p>
+        <p className={styles.createdDate}>{createdDate}</p>
         <Wysiwyg readOnly={true} data={editorState} mode="READ" />
         <div className={styles.comment}>
           <h2>Comment</h2>
@@ -94,7 +96,6 @@ const Article = ({ blog, id }) => {
 };
 
 export const getStaticPaths = async () => {
-  // const res = await fetch(API_URL + "blogs");
   const res = await fetch(`${process.env.WEBAPP_URL}blogs`);
   const json = await res.json();
   const blogs = json.results;
@@ -111,7 +112,7 @@ export const getStaticProps = async ({ params }) => {
   const res = await fetch(`${process.env.WEBAPP_URL}blogs/${id}`);
   const json = await res.json();
   const blog = json.results[0];
-  return { props: { blog, id }, revalidate: 1 };
+  return { props: { blog, id, createdDate: json.createdDate }, revalidate: 1 };
 };
 
 export default Article;

@@ -22,15 +22,19 @@ export const postArticle = async ({ title, data }) => {
   }
 };
 
-export const editArticle = async({title, data, blog_id}) => {
-  const res = await axios.put(API_URL + "article", {
-    title: title,
-    data: data,
-    blog_id: blog_id
-  },{
-    headers: authHeader()
-  })
-}
+export const editArticle = async ({ title, data, blog_id }) => {
+  const res = await axios.put(
+    API_URL + "article",
+    {
+      title: title,
+      data: data,
+      blog_id: blog_id,
+    },
+    {
+      headers: authHeader(),
+    }
+  );
+};
 
 export const articleDelete = async (id) => {
   try {
@@ -63,7 +67,8 @@ export const postComment = async ({ comment, blog_id }) => {
 export const getCommentList = async (article_id) => {
   try {
     let res = await axios.get(API_URL + `comment/${article_id}`);
-    return res.data.results;
+    // return res.data.results;
+    return [res.data.results, res.data.createdDate];
   } catch (error) {
     console.log(error);
   }
