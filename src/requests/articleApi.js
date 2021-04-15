@@ -22,6 +22,16 @@ export const postArticle = async ({ title, data }) => {
   }
 };
 
+export const editArticle = async({title, data, blog_id}) => {
+  const res = await axios.put(API_URL + "article", {
+    title: title,
+    data: data,
+    blog_id: blog_id
+  },{
+    headers: authHeader()
+  })
+}
+
 export const articleDelete = async (id) => {
   try {
     const res = await axios.get(API_URL + `delete/${id}`, {

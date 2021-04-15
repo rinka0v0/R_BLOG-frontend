@@ -26,6 +26,7 @@ const Article = ({ blog, id }) => {
     user.user_id
   );
 
+  //  edit.jsxと処理が被る可能性あり
   const contentState = convertFromRaw(JSON.parse(blog.body));
   const editorState = EditorState.createWithContent(contentState);
 
@@ -45,10 +46,14 @@ const Article = ({ blog, id }) => {
   }, [loggedIn]);
 
   const onDeleteClick = () => {
-    if (confirm('記事を削除しますか？')) {
+    if (confirm("記事を削除しますか？")) {
       articleDelete(blog.id);
       Router.replace("/home");
     }
+  };
+
+  const onEditClick = () => {
+    Router.replace(`/home/article/${id}/edit`);
   };
 
   if (!loggedIn) {
@@ -62,12 +67,15 @@ const Article = ({ blog, id }) => {
       <div className={styles.container}>
         <NavList />
         {user.user_id === blog.user_id ? (
-          <FormButton value="DELETE" onClick={onDeleteClick} />
+          <>
+            <FormButton value="DELETE" onClick={onDeleteClick} />
+            <FormButton value="EDIT" onClick={onEditClick} />
+          </>
         ) : (
           <></>
         )}
         <h1>{blog.title}</h1>
-        <Wysiwyg readOnly={true} data={editorState} />
+        <Wysiwyg readOnly={true} data={editorState} mode="READ" />
         <div className={styles.comment}>
           <h2>Comment</h2>
           {comments !== undefined ? comments.slice(0, count) : <></>}
@@ -94,13 +102,12 @@ export const getStaticPaths = async () => {
     const stringId = blog.id.toString();
     return { params: { id: stringId } };
   });
-  return { paths: [], fallback: "blocking" };
+  return { paths: [...paths], fallback: "blocking" };
 };
 
 export const getStaticProps = async ({ params }) => {
   const id = params.id;
   //記事をSSGで取得
-  // const res = await fetch(API_URL + `blogs/${id}`);
   const res = await fetch(`${process.env.WEBAPP_URL}blogs/${id}`);
   const json = await res.json();
   const blog = json.results[0];

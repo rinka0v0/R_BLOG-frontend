@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "../Wysiwyg/index.module.scss";
 import FormButton from "../FormButton";
-import { postArticle } from "../../requests/articleApi";
+import { postArticle, editArticle } from "../../requests/articleApi";
 import Router from "next/router";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -12,10 +12,18 @@ const Wysiwyg = (props) => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-  const [title, setTitle] = useState("");
+
+  // propsで記事の内容が渡されている場合はエディタにsetする。
+  useEffect(() => {
+    if (props.data) {
+      setEditorState(props.data);
+    }
+  }, []);
+
+  const [title, setTitle] = useState(props.title);
   const [err, setErr] = useState("");
 
-  const saveData = async () => {
+  const saveArticle = async () => {
     const data = editorState.getCurrentContent();
     if (title.trim().length !== 0 && data) {
       try {
@@ -23,21 +31,41 @@ const Wysiwyg = (props) => {
         const res = await postArticle({ title: title, data: content });
         Router.replace("/home");
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         setErr("err");
       }
     } else {
       setErr("lack");
     }
+    console.log("POST!!");
+  };
+
+  const rePostArticle = async () => {
+    const data = editorState.getCurrentContent();
+    if (title.trim().length !== 0 && data) {
+      try {
+        const content = JSON.stringify(convertToRaw(data));
+        const res = await editArticle({
+          title: title,
+          data: content,
+          blog_id: props.blog_id,
+        });
+        Router.replace("/home");
+      } catch (error) {
+        // console.log(error);
+        setErr("err");
+      }
+    } else {
+      setErr("lack");
+    }
+    console.log("edit!!");
   };
 
   return (
     <div className={styles.container}>
-      {props.readOnly ? (
-        <></>
-      ) : (
+      {props.mode === "EDIT" ? (
         <>
-          <FormButton value="POST" onClick={saveData} />
+          <FormButton value="EDIT" onClick={rePostArticle} />
           <label>
             title
             <input
@@ -48,12 +76,29 @@ const Wysiwyg = (props) => {
               maxLength="20"
               onChange={(e) => {
                 setTitle(e.target.value);
-                console.log(title.trim().length);
               }}
             />
           </label>
         </>
-      )}
+      ) : null}
+      {props.mode === "POST" ? (
+        <>
+          <FormButton value="POST" onClick={saveArticle} />
+          <label>
+            title
+            <input
+              type="text"
+              name="title"
+              placeholder="title"
+              value={title}
+              maxLength="20"
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+          </label>
+        </>
+      ) : null}
       {err === "lack" ? (
         <div className={styles.error}>Please input title and article</div>
       ) : null}
@@ -63,7 +108,7 @@ const Wysiwyg = (props) => {
       <div className={styles.editor}>
         {props.readOnly ? (
           <Editor
-            editorState={props.data ? props.data : editorState}
+            editorState={editorState}
             wrapperClassName="demo-wrapper"
             editorClassName="demo-editor"
             onEditorStateChange={setEditorState}
@@ -72,7 +117,7 @@ const Wysiwyg = (props) => {
           />
         ) : (
           <Editor
-            editorState={props.data ? props.data : editorState}
+            editorState={editorState}
             wrapperClassName="demo-wrapper"
             editorClassName="demo-editor"
             onEditorStateChange={setEditorState}

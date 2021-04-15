@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import Router from "next/router";
 import Loading from "../components/Loading";
 
-
 const IndexPage = () => {
   const { loggedIn, loading } = useUser();
 
