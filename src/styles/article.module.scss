@@ -8,6 +8,14 @@
     margin: 0 auto 1em;
     padding: 1em;
   }
+  .autherName {
+    margin-left: 1em;
+    // color: #1972d1;
+  }
+  .createdDate {
+    text-align: right;
+    user-select: none;
+  }
   .comment {
     color: #363b48;
     background-color: #ddd;
