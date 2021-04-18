@@ -14,7 +14,7 @@ const Wysiwyg = dynamic(() => import("../../../../components/Wysiwyg/index"), {
 const EditPage = ({ blog, id }) => {
   const { user, loading, loggedIn } = useUser();
 
-  const contentState = convertFromRaw(JSON.parse(blog.body));
+  const contentState = convertFromRaw(JSON.parse(blog.body || "null"));
   const editorState = EditorState.createWithContent(contentState);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const EditPage = ({ blog, id }) => {
           title={blog.title}
           blog_id={blog.id}
           btnValue="EDIT"
-          mode='EDIT'
+          mode="EDIT"
         />
       </div>
     );
