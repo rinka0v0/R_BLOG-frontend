@@ -11,7 +11,7 @@ const judgeComments = (comment, user_id, mutate) => {
         <CommentList
           comment={comment.text}
           user_name={comment.name}
-          // created={createdDate[index]}
+          created={comment.created}
           key={index}
           id={comment.id}
           comment_User_Id={comment.user_id}
