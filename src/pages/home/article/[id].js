@@ -112,7 +112,7 @@ export const getStaticProps = async ({ params }) => {
   const res = await fetch(`${process.env.WEBAPP_URL}blogs/${id}`);
   const json = await res.json();
   const blog = json.results[0];
-  return { props: { blog, id, createdDate: json.createdDate }, revalidate: 1 };
+  return { props: { blog:blog, id:id, createdDate: json.createdDate }, revalidate: 1 };
 };
 
 export default Article;

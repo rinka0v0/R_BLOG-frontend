@@ -38,7 +38,6 @@ const EditPage = ({ blog, id }) => {
           data={editorState}
           title={blog.title}
           blog_id={blog.id}
-          btnValue="EDIT"
           mode="EDIT"
         />
       </div>
