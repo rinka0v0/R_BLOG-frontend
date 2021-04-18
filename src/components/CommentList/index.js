@@ -4,7 +4,7 @@ import FormButton from "../FormButton";
 import { commentDelete } from "../../requests/articleApi";
 
 const CommentList = (props) => {
-  const contentState = convertFromRaw(JSON.parse(props.comment));
+  const contentState = convertFromRaw(JSON.parse(props.comment || "null"));
   const editorState = EditorState.createWithContent(contentState);
 
   const onDeleteClick = async () => {
