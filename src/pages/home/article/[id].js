@@ -27,7 +27,7 @@ const Article = ({ blog, id, createdDate }) => {
   );
 
   //  edit.jsxと処理が被る可能性あり
-  const contentState = convertFromRaw(JSON.parse(blog.body));
+  const contentState = convertFromRaw(JSON.parse(blog.body || "null"));
   const editorState = EditorState.createWithContent(contentState);
 
   const [count, setCount] = useState(5);
