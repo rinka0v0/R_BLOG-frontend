@@ -50,7 +50,7 @@ const Home = () => {
   useEffect(async () => {
     const blogs = await fetchBlogs();
     setBlogs(blogs);
-  }, []);
+  });
 
   useEffect(() => {
     if (!loggedIn) {
