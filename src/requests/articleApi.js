@@ -37,13 +37,9 @@ export const editArticle = async ({ title, data, blog_id }) => {
 };
 
 export const articleDelete = async (id) => {
-  try {
     const res = await axios.get(API_URL + `delete/${id}`, {
       headers: authHeader(),
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 export const postComment = async ({ comment, blog_id }) => {
