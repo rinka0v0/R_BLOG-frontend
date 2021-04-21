@@ -30,27 +30,19 @@ const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const { user, loading, loggedIn } = useUser();
 
-  // const blogs = blog.map((blog, index) => {
-  //   return (
-  //     <ArticleList
-  //       title={blog.title}
-  //       key={index}
-  //       url={`/home/article/${blog.id}`}
-  //       author={blog.name}
-  //     />
-  //   );
-  // });
-
   const handleShowMorePosts = () => {
     setCount((pre) => {
       setCount(pre + 10);
     });
   };
 
-  useEffect(async () => {
-    const blogs = await fetchBlogs();
-    setBlogs(blogs);
-  });
+  useEffect(() => {
+    const fetchAndSetBlos = async() => {
+      const blogs = await fetchBlogs();
+      setBlogs(blogs);
+    }
+    fetchAndSetBlos();
+  },[]);
 
   useEffect(() => {
     if (!loggedIn) {
@@ -72,7 +64,9 @@ const Home = () => {
         <NavList />
         <div className={styles.container}>
           <h1 className={styles.title}>Latest articles</h1>
-          <div className={styles.articleList}>{blogs.slice(0, count)}</div>
+          <div className={styles.articleList}>
+            {blogs.length ? blogs.slice(0, count) : null}
+          </div>
           {blogs.length > count ? (
             <FormButton
               value="MORE"
