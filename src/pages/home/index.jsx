@@ -9,6 +9,7 @@ import Head from "next/head";
 import FormButton from "../../components/FormButton/index";
 import { memo } from "react";
 
+
 const fetchBlogs = async () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(`${API_URL}blogs`);

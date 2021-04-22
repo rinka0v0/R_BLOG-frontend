@@ -9,8 +9,12 @@ import FormButton from "../../../components/FormButton";
 import { articleDelete } from "../../../requests/articleApi";
 import { EditorState, convertFromRaw } from "draft-js";
 import { memo } from "react";
-import Wysiwyg from "../../../components/Wysiwyg/index";
 import Comment from "../../../components/Comment/index";
+
+import dynamic from "next/dynamic";
+const Wysiwyg = dynamic(() => import("../../../components/Wysiwyg/index"), {
+  ssr: false,
+});
 
 const fetchBlog = async (id) => {
   try {
@@ -77,11 +81,11 @@ const Article = memo(() => {
     if (confirm("記事を削除しますか？")) {
       try {
         articleDelete(blog.id);
+        Router.replace("/home");
       } catch (error) {
         console.log(error);
       }
     }
-    Router.replace("/home");
   };
 
   const onEditClick = () => {
