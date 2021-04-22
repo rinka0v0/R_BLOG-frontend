@@ -9,10 +9,12 @@ import FormButton from "../../../components/FormButton";
 import { articleDelete } from "../../../requests/articleApi";
 import { EditorState, convertFromRaw } from "draft-js";
 import { memo } from "react";
-import Comment from "../../../components/Comment/index";
 
 import dynamic from "next/dynamic";
 const Wysiwyg = dynamic(() => import("../../../components/Wysiwyg/index"), {
+  ssr: false,
+});
+const Comment = dynamic(() => import("../../../components/Comment/index"), {
   ssr: false,
 });
 
