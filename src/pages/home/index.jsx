@@ -69,7 +69,7 @@ const Home = memo(() => {
           <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
         <NavList />
-        {blog.length ? (
+        {blogs.length ? (
           <div className={styles.container}>
             <h1 className={styles.title}>Latest articles</h1>
             <div className={styles.articleList}>
