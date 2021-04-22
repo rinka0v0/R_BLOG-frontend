@@ -37,12 +37,18 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const fetchAndSetBlos = async() => {
+    let isMounted = true;
+    const fetchAndSetBlos = async () => {
       const blogs = await fetchBlogs();
-      setBlogs(blogs);
-    }
+      if (isMounted) {
+        setBlogs(blogs);
+      }
+    };
     fetchAndSetBlos();
-  },[]);
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!loggedIn) {
