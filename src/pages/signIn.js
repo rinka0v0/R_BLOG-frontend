@@ -7,8 +7,9 @@ import useUser from "../data/useUser";
 import { signIn } from "../requests/userApi";
 import Loading from "../components/Loading/index";
 import styles from "../styles/form.module.scss";
+import { memo } from "react";
 
-export default function SignIn() {
+const SignIn = memo(() => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
@@ -76,4 +77,6 @@ export default function SignIn() {
       </form>
     </>
   );
-}
+});
+
+export default SignIn;

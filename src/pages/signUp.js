@@ -7,8 +7,9 @@ import Loading from "../components/Loading/index";
 import { signup } from "../requests/userApi";
 import styles from "../styles/form.module.scss";
 import Router from "next/router";
+import { memo } from "react";
 
-export default function Login() {
+const SignUp = memo(() => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
@@ -78,4 +79,6 @@ export default function Login() {
       </form>
     </>
   );
-}
+});
+
+export default SignUp;
