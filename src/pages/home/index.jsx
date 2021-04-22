@@ -9,7 +9,6 @@ import Head from "next/head";
 import FormButton from "../../components/FormButton/index";
 import { memo } from "react";
 
-
 const fetchBlogs = async () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(`${API_URL}blogs`);
@@ -70,19 +69,23 @@ const Home = memo(() => {
           <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
         <NavList />
-        <div className={styles.container}>
-          <h1 className={styles.title}>Latest articles</h1>
-          <div className={styles.articleList}>
-            {blogs.length ? blogs.slice(0, count) : null}
+        {blog.length ? (
+          <div className={styles.container}>
+            <h1 className={styles.title}>Latest articles</h1>
+            <div className={styles.articleList}>
+              {blogs.length ? blogs.slice(0, count) : null}
+            </div>
+            {blogs.length > count ? (
+              <FormButton
+                value="MORE"
+                onClick={handleShowMorePosts}
+                className={styles.moreBtn}
+              />
+            ) : null}
           </div>
-          {blogs.length > count ? (
-            <FormButton
-              value="MORE"
-              onClick={handleShowMorePosts}
-              className={styles.moreBtn}
-            />
-          ) : null}
-        </div>
+        ) : (
+          <Loading />
+        )}
       </>
     );
   }
