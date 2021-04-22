@@ -11,13 +11,16 @@ const Wysiwyg = dynamic(() => import("../../components/Wysiwyg/index"), {
 });
 
 const Post = () => {
-  const { user, loading, loggedIn } = useUser();
+  const { user, loading, loggedIn, mutate } = useUser();
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    if (!loggedIn) {
-      Router.replace("/signIn");
-    }
+    const fetchUser = async () => {
+      if (user !== undefined && !loggedIn) {
+        Router.replace("/signIn");
+      }
+    };
+    fetchUser();
   }, [loggedIn]);
 
   if (!loggedIn) {
