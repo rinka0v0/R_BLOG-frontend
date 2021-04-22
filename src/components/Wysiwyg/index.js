@@ -7,18 +7,10 @@ import { postArticle, editArticle } from "../../requests/articleApi";
 import Router from "next/router";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { memo } from "react";
 
-const Wysiwyg = (props) => {
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-
-  // propsで記事の内容が渡されている場合はエディタにsetする。
-  useEffect(() => {
-    if (props.data) {
-      setEditorState(props.data);
-    }
-  }, []);
+const Wysiwyg = memo((props) => {
+  const [editorState, setEditorState] = useState(props.data);
 
   const [title, setTitle] = useState(props.title);
   const [err, setErr] = useState("");
@@ -31,13 +23,11 @@ const Wysiwyg = (props) => {
         const res = await postArticle({ title: title, data: content });
         Router.replace("/home");
       } catch (error) {
-        // console.log(error);
         setErr("err");
       }
     } else {
       setErr("lack");
     }
-    console.log("POST!!");
   };
 
   const rePostArticle = async () => {
@@ -52,7 +42,6 @@ const Wysiwyg = (props) => {
         });
         Router.replace("/home");
       } catch (error) {
-        // console.log(error);
         setErr("err");
       }
     } else {
@@ -108,7 +97,7 @@ const Wysiwyg = (props) => {
       <div className={styles.editor}>
         {props.readOnly ? (
           <Editor
-            editorState={editorState}
+            editorState={props.data}
             wrapperClassName="demo-wrapper"
             editorClassName="demo-editor"
             onEditorStateChange={setEditorState}
@@ -127,6 +116,6 @@ const Wysiwyg = (props) => {
       </div>
     </div>
   );
-};
+});
 
 export default Wysiwyg;

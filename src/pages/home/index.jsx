@@ -7,6 +7,8 @@ import ArticleList from "../../components/ArticleList";
 import styles from "../../styles/homePage.module.scss";
 import Head from "next/head";
 import FormButton from "../../components/FormButton/index";
+import { memo } from "react";
+
 
 const fetchBlogs = async () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -25,21 +27,10 @@ const fetchBlogs = async () => {
   return blogs;
 };
 
-const Home = () => {
+const Home = memo(() => {
   const [count, setCount] = useState(10);
   const [blogs, setBlogs] = useState([]);
   const { user, loading, loggedIn } = useUser();
-
-  // const blogs = blog.map((blog, index) => {
-  //   return (
-  //     <ArticleList
-  //       title={blog.title}
-  //       key={index}
-  //       url={`/home/article/${blog.id}`}
-  //       author={blog.name}
-  //     />
-  //   );
-  // });
 
   const handleShowMorePosts = () => {
     setCount((pre) => {
@@ -47,10 +38,19 @@ const Home = () => {
     });
   };
 
-  useEffect(async () => {
-    const blogs = await fetchBlogs();
-    setBlogs(blogs);
-  });
+  useEffect(() => {
+    let isMounted = true;
+    const fetchAndSetBlos = async () => {
+      const blogs = await fetchBlogs();
+      if (isMounted) {
+        setBlogs(blogs);
+      }
+    };
+    fetchAndSetBlos();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!loggedIn) {
@@ -72,7 +72,9 @@ const Home = () => {
         <NavList />
         <div className={styles.container}>
           <h1 className={styles.title}>Latest articles</h1>
-          <div className={styles.articleList}>{blogs.slice(0, count)}</div>
+          <div className={styles.articleList}>
+            {blogs.length ? blogs.slice(0, count) : null}
+          </div>
           {blogs.length > count ? (
             <FormButton
               value="MORE"
@@ -84,7 +86,7 @@ const Home = () => {
       </>
     );
   }
-};
+});
 
 // export const getStaticProps = async () => {
 //   const API_URL = process.env.NEXT_PUBLIC_API_URL;

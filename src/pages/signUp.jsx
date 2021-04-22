@@ -2,13 +2,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import FormButton from "../components/FormButton/index";
 import FormInput from "../components/FormInput/index";
-import Router from "next/router";
 import useUser from "../data/useUser";
-import { signIn } from "../requests/userApi";
 import Loading from "../components/Loading/index";
+import { signup } from "../requests/userApi";
 import styles from "../styles/form.module.scss";
+import Router from "next/router";
+import { memo } from "react";
 
-export default function SignIn() {
+const SignUp = memo(() => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
@@ -21,29 +22,31 @@ export default function SignIn() {
     }
   }, [loggedIn]);
 
-  const onLoginSubmit = async (e) => {
+  const onSignupSubmit = async (e) => {
     e.preventDefault();
     if (name && password) {
       try {
-        await signIn({ name, password });
+        await signup({ name, password });
         mutate();
       } catch (error) {
-        setErr("notFound");
+        setErr("alredyExist");
       }
     } else {
       setErr("length");
     }
   };
+
   if (loggedIn) {
     return <Loading />;
   }
   if (loading) {
     return <Loading />;
   }
+
   return (
     <>
-      <form method="post" onSubmit={onLoginSubmit} className={styles.signIn}>
-        <h1>SIGN IN</h1>
+      <form method="post" onSubmit={onSignupSubmit} className={styles.signUp}>
+        <h1>SIGN UP</h1>
         <FormInput
           label="password"
           name="password"
@@ -58,22 +61,24 @@ export default function SignIn() {
           value={name}
           onChange={setName}
         />
-        <FormButton value="Sign in" />
+        <FormButton value="Sign Up" />
         {err === "length" ? (
           <div className={styles.error}>
             Please input user name and password
           </div>
         ) : null}
-        {err === "notFound" ? (
-          <div className={styles.error}>not found accont</div>
+        {err === "alredyExist" ? (
+          <div className={styles.error}>The name is already in use.</div>
         ) : null}
         <div>
-          <p>Don't have an account?</p>
-          <Link href="/signUp">
-            <a className={styles.link}>Sign Up</a>
+          <p>Already have an account?</p>
+          <Link href="/signIn">
+            <a className={styles.link}>Sign In</a>
           </Link>
         </div>
       </form>
     </>
   );
-}
+});
+
+export default SignUp;
