@@ -7,6 +7,7 @@ import ArticleList from "../../components/ArticleList";
 import styles from "../../styles/homePage.module.scss";
 import Head from "next/head";
 import FormButton from "../../components/FormButton/index";
+import { memo } from "react";
 
 const fetchBlogs = async () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -25,7 +26,7 @@ const fetchBlogs = async () => {
   return blogs;
 };
 
-const Home = () => {
+const Home = memo(() => {
   const [count, setCount] = useState(10);
   const [blogs, setBlogs] = useState([]);
   const { user, loading, loggedIn } = useUser();
@@ -84,7 +85,7 @@ const Home = () => {
       </>
     );
   }
-};
+});
 
 // export const getStaticProps = async () => {
 //   const API_URL = process.env.NEXT_PUBLIC_API_URL;

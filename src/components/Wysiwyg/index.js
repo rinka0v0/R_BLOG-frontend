@@ -10,9 +10,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { memo } from "react";
 
 const Wysiwyg = memo((props) => {
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
+  const [editorState, setEditorState] = useState(props.data);
 
   const [title, setTitle] = useState(props.title);
   const [err, setErr] = useState("");
@@ -25,7 +23,6 @@ const Wysiwyg = memo((props) => {
         const res = await postArticle({ title: title, data: content });
         Router.replace("/home");
       } catch (error) {
-        // console.log(error);
         setErr("err");
       }
     } else {
@@ -45,7 +42,6 @@ const Wysiwyg = memo((props) => {
         });
         Router.replace("/home");
       } catch (error) {
-        // console.log(error);
         setErr("err");
       }
     } else {
