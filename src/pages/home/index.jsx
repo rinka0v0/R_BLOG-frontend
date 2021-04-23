@@ -31,6 +31,8 @@ const Home = memo(() => {
   const [blogs, setBlogs] = useState([]);
   const { user, loading, loggedIn } = useUser();
 
+  console.log(user);
+
   const handleShowMorePosts = () => {
     setCount((pre) => {
       setCount(pre + 10);
@@ -52,13 +54,10 @@ const Home = memo(() => {
   }, []);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (user !== undefined && !loggedIn) {
-        Router.replace("/signIn");
-      }
-    };
-    fetchUser();
-  }, [loggedIn]);
+    if (!loading && !user) {
+      Router.replace("/signIn");
+    }
+  }, [loading]);
 
   if (!loggedIn) {
     return <Loading />;

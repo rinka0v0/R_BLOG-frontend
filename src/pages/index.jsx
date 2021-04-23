@@ -7,10 +7,10 @@ import Router from "next/router";
 import Loading from "../components/Loading";
 
 const IndexPage = () => {
-  const { loggedIn, loading } = useUser();
+  const { loggedIn, loading, user } = useUser();
 
   useEffect(() => {
-    if (loggedIn) {
+    if (!loading && user) {
       Router.replace("/home");
     }
   }, [loggedIn]);
@@ -24,7 +24,7 @@ const IndexPage = () => {
 
   return (
     <div className={styles.container}>
-        <h1>R_BLOG</h1>
+      <h1>R_BLOG</h1>
       <div className={styles.illustrations}>
         <Image
           src="/undraw_Sharing_articles_re_jnkp.svg"
