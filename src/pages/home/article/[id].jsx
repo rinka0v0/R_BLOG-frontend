@@ -41,13 +41,11 @@ const Article = memo(() => {
   const [blog, setBlog] = useState({});
   const [editorState, setEditorState] = useState();
   const [count, setCount] = useState(5);
+  // const [comments, setComments] = useState([]);
 
   // useSWRで認証情報・コメントを取得
   const { user, loading, loggedIn } = useUser();
-  const { error, comments, commentMutate } = useCommentListGet(
-    blogId,
-    user.user_id
-  );
+  const { comments, commentMutate } = useCommentListGet(blogId, user.user_id);
 
   useEffect(() => {
     if (router.asPath !== router.route) {
@@ -74,7 +72,8 @@ const Article = memo(() => {
       }
     };
     fetchUser();
-  }, [loggedIn]);
+    commentMutate();
+  });
 
   const handleShowMorePosts = () => {
     setCount((pre) => {
