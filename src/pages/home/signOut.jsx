@@ -11,9 +11,12 @@ const Logout = () => {
   const { user, loggedIn, mutate, loading } = useUser();
 
   useEffect(() => {
-    if (!loggedIn) {
-      Router.replace("/signIn");
-    }
+    const fetchUser = async () => {
+      if (user !== undefined && !loggedIn) {
+        Router.replace("/signIn");
+      }
+    };
+    fetchUser();
   }, [loggedIn]);
 
   const onLogoutSubmit = async () => {

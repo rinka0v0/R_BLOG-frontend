@@ -52,10 +52,14 @@ const Home = memo(() => {
   }, []);
 
   useEffect(() => {
-    if (!loggedIn) {
-      Router.replace("/signIn");
-    }
+    const fetchUser = async () => {
+      if (user !== undefined && !loggedIn) {
+        Router.replace("/signIn");
+      }
+    };
+    fetchUser();
   }, [loggedIn]);
+
   if (!loggedIn) {
     return <Loading />;
   }
@@ -90,17 +94,5 @@ const Home = memo(() => {
     );
   }
 });
-
-// export const getStaticProps = async () => {
-//   const API_URL = process.env.NEXT_PUBLIC_API_URL;
-//   const res = await fetch(`${process.env.WEBAPP_URL}blogs`);
-//   const blog = await res.json();
-//   return {
-//     props: {
-//       blog: blog.results,
-//     },
-//     revalidate: 1,
-//   };
-// };
 
 export default Home;

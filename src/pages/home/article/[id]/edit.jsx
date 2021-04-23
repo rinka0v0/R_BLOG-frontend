@@ -50,9 +50,12 @@ const EditPage = () => {
   }, [blogId]);
 
   useEffect(() => {
-    if (!loggedIn) {
-      Router.replace("/signIn");
-    }
+    const fetchUser = async () => {
+      if (user !== undefined && !loggedIn) {
+        Router.replace("/signIn");
+      }
+    };
+    fetchUser();
   }, [loggedIn]);
 
   if (!loggedIn) {
@@ -82,25 +85,5 @@ const EditPage = () => {
     );
   }
 };
-
-// export const getStaticPaths = async () => {
-//   const res = await fetch(`${process.env.WEBAPP_URL}blogs`);
-//   const json = await res.json();
-//   const blogs = json.results;
-//   const paths = blogs.map((blog) => {
-//     const stringId = blog.id.toString();
-//     return { params: { id: stringId } };
-//   });
-//   return { paths: [...paths], fallback: "blocking" };
-// };
-
-// export const getStaticProps = async ({ params }) => {
-//   const id = params.id;
-//   //記事をSSGで取得
-//   const res = await fetch(`${process.env.WEBAPP_URL}blogs/${id}`);
-//   const json = await res.json();
-//   const blog = json.results[0];
-//   return { props: { blog, id }, revalidate: 1 };
-// };
 
 export default EditPage;

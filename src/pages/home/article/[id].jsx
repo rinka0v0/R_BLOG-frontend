@@ -41,13 +41,11 @@ const Article = memo(() => {
   const [blog, setBlog] = useState({});
   const [editorState, setEditorState] = useState();
   const [count, setCount] = useState(5);
+  // const [comments, setComments] = useState([]);
 
   // useSWRで認証情報・コメントを取得
   const { user, loading, loggedIn } = useUser();
-  const { error, comments, commentMutate } = useCommentListGet(
-    blogId,
-    user.user_id
-  );
+  const { comments, commentMutate } = useCommentListGet(blogId, user.user_id);
 
   useEffect(() => {
     if (router.asPath !== router.route) {
@@ -68,10 +66,14 @@ const Article = memo(() => {
   }, [blogId]);
 
   useEffect(() => {
-    if (!loggedIn) {
-      Router.replace("/signIn");
-    }
-  }, [loggedIn]);
+    const fetchUser = async () => {
+      if (user !== undefined && !loggedIn) {
+        Router.replace("/signIn");
+      }
+    };
+    fetchUser();
+    commentMutate();
+  });
 
   const handleShowMorePosts = () => {
     setCount((pre) => {
@@ -135,28 +137,5 @@ const Article = memo(() => {
     );
   }
 });
-
-// export const getStaticPaths = async () => {
-//   const res = await fetch(`${process.env.WEBAPP_URL}blogs`);
-//   const json = await res.json();
-//   const blogs = json.results;
-//   const paths = blogs.map((blog) => {
-//     const stringId = blog.id.toString();
-//     return { params: { id: stringId } };
-//   });
-//   return { paths: [...paths], fallback: "blocking" };
-// };
-
-// export const getStaticProps = async ({ params }) => {
-//   const id = params.id;
-//   記事をSSGで取得
-//   const res = await fetch(`${process.env.WEBAPP_URL}blogs/${id}`);
-//   const json = await res.json();
-//   const blog = json.results[0];
-//   return {
-//     props: { blog: blog, id: id, createdDate: json.createdDate },
-//     revalidate: 1,
-//   };
-// };
 
 export default Article;

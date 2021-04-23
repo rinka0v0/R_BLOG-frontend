@@ -3,9 +3,8 @@ import { getUser } from "../requests/userApi";
 
 export default function useUser() {
   const { data, mutate, error } = useSWR("api_user", getUser, {
-    initialData: false,
+    initialData: {},
   });
-
   const loading = !data && !error;
   const loggedIn = !error && !!data;
   return {
