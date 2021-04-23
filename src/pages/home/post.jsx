@@ -16,7 +16,7 @@ const Post = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (user !== undefined && !loggedIn) {
+      if (!loading && !user) {
         Router.replace("/signIn");
       }
     };

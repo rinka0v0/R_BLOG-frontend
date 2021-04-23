@@ -14,10 +14,10 @@ const SignIn = memo(() => {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
 
-  const { loggedIn, mutate, loading } = useUser();
+  const { user,loggedIn, mutate, loading } = useUser();
 
   useEffect(() => {
-    if (loggedIn) {
+    if (!loading && user) {
       Router.replace("/home");
     }
   }, [loggedIn]);

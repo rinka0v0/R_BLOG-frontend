@@ -12,12 +12,12 @@ const Logout = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (user !== undefined && !loggedIn) {
+      if (!loading && !user) {
         Router.replace("/signIn");
       }
     };
     fetchUser();
-  }, [loggedIn]);
+  }, [loading]);
 
   const onLogoutSubmit = async () => {
     await logout();

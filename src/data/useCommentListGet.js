@@ -24,11 +24,13 @@ const judgeComments = (comment, user_id, mutate) => {
   }
 };
 
-export default function useUser(id, user_id) {
+export default function useUser(id, user) {
   const { data, mutate, error } = useSWR(`${id}`, getCommentList, {
     initialData: [],
   });
-  const comments = judgeComments(data, user_id, mutate);
+
+  const comments =
+    user !== undefined ? judgeComments(data, user.user_id, mutate) : [];
 
   return {
     error,

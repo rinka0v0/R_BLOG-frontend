@@ -45,7 +45,7 @@ const Article = memo(() => {
 
   // useSWRで認証情報・コメントを取得
   const { user, loading, loggedIn } = useUser();
-  const { comments, commentMutate } = useCommentListGet(blogId, user.user_id);
+  const { comments, commentMutate } = useCommentListGet(blogId, user);
 
   useEffect(() => {
     if (router.asPath !== router.route) {
@@ -67,7 +67,7 @@ const Article = memo(() => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (user !== undefined && !loggedIn) {
+      if (!loading && !user) {
         Router.replace("/signIn");
       }
     };
