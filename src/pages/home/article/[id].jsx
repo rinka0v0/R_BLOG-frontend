@@ -96,7 +96,10 @@ const Article = memo(() => {
     Router.replace(`/home/article/${blogId}/edit`);
   };
 
-  if (!loggedIn || loading) {
+  if (!loggedIn) {
+    return <Loading />;
+  }
+  if (loading) {
     return <Loading />;
   }
   if (loggedIn && user) {
@@ -104,7 +107,7 @@ const Article = memo(() => {
       <>
         <NavList />
         {!blog.title ? (
-          <Loading />
+          <div>記事が読み込めませんでした🙇‍♂️</div>
         ) : (
           <>
             <div className={styles.container}>
