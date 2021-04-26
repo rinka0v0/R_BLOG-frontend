@@ -14,7 +14,7 @@ const SignIn = memo(() => {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
 
-  const { user,loggedIn, mutate, loading } = useUser();
+  const { user, loggedIn, mutate, loading } = useUser();
 
   useEffect(() => {
     if (!loading && user) {
@@ -35,6 +35,16 @@ const SignIn = memo(() => {
       setErr("length");
     }
   };
+
+  const guestSignIn = async () => {
+    try {
+      await signIn({ name: "guestUser", password: "guestUser" });
+      mutate();
+    } catch (error) {
+      setErr("notFound");
+    }
+  };
+
   if (loggedIn) {
     return <Loading />;
   }
@@ -43,6 +53,9 @@ const SignIn = memo(() => {
   }
   return (
     <>
+      <div className={styles.guestsignin} onClick={guestSignIn}>
+        Guest sign in
+      </div>
       <form method="post" onSubmit={onLoginSubmit} className={styles.signIn}>
         <h1>SIGN IN</h1>
         <FormInput

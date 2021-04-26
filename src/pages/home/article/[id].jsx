@@ -106,8 +106,9 @@ const Article = memo(() => {
     return (
       <>
         <NavList />
+        {blog === {} ? <Loading /> : null}
         {!blog.title ? (
-          <div>記事が読み込めませんでした🙇‍♂️</div>
+          <Loading />
         ) : (
           <>
             <div className={styles.container}>

@@ -16,8 +16,8 @@ const Wysiwyg = memo((props) => {
   const [err, setErr] = useState("");
 
   const saveArticle = async () => {
-    const data = editorState.getCurrentContent();
-    if (title.trim().length !== 0 && data) {
+    if (editorState && title.trim().length !== 0) {
+      const data = editorState.getCurrentContent();
       try {
         const content = JSON.stringify(convertToRaw(data));
         const res = await postArticle({ title: title, data: content });
