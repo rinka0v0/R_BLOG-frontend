@@ -4,7 +4,7 @@ import FormButton from "../components/FormButton/index";
 import FormInput from "../components/FormInput/index";
 import useUser from "../data/useUser";
 import Loading from "../components/Loading/index";
-import { signup } from "../requests/userApi";
+import { signIn, signup } from "../requests/userApi";
 import styles from "../styles/form.module.scss";
 import Router from "next/router";
 import { memo } from "react";
@@ -14,7 +14,7 @@ const SignUp = memo(() => {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
 
-  const { user,loggedIn, mutate, loading } = useUser();
+  const { user, loggedIn, mutate, loading } = useUser();
 
   useEffect(() => {
     if (!loading && user) {
@@ -36,6 +36,15 @@ const SignUp = memo(() => {
     }
   };
 
+  const guestSignIn = async () => {
+    try {
+      await signIn({ name: "guestUser", password: "guestUser" });
+      mutate();
+    } catch (error) {
+      setErr("notFound");
+    }
+  };
+
   if (loggedIn) {
     return <Loading />;
   }
@@ -45,6 +54,9 @@ const SignUp = memo(() => {
 
   return (
     <>
+      <div className={styles.guestsignin} onClick={guestSignIn}>
+        Guest sign in
+      </div>
       <form method="post" onSubmit={onSignupSubmit} className={styles.signUp}>
         <h1>SIGN UP</h1>
         <FormInput
