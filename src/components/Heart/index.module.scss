@@ -1,0 +1,55 @@
+.redHeart {
+  margin-left: auto;
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 2em;
+  width: 50px; /* 正方形を作る */
+  height: 50px; /* 正方形を作る */
+  position: relative; /* 基準位置とする */
+  &::before,
+  &::after {
+    content: ""; /* 疑似要素に必須 */
+    width: 50%; /* ハートの丸い部分の大きさにかかわる */
+    height: 80%; /* ハートの高さにかかわる */
+    background: #e0548e; /* ハートの色 */
+    border-radius: 25px 25px 0 0; /* ハートの半円を生成 */
+    display: block; /* ブロック要素にする */
+    position: absolute; /* 相対位置に指定 */
+  }
+  &::before {
+    transform: rotate(-45deg); /* 左に回転 */
+    left: 14%; /* 左からの位置を指定 */
+  }
+  &::after {
+    transform: rotate(45deg); /* 右に回転 */
+    right: 14%; /* 右からの位置を指定 */
+  }
+}
+
+.grayHeart {
+  margin-left: auto;
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 2em;
+  width: 50px; /* 正方形を作る */
+  height: 50px; /* 正方形を作る */
+  position: relative; /* 基準位置とする */
+  &::before,
+  &::after {
+    content: ""; /* 疑似要素に必須 */
+    width: 50%; /* ハートの丸い部分の大きさにかかわる */
+    height: 80%; /* ハートの高さにかかわる */
+    background: gray; /* ハートの色 */
+    border-radius: 25px 25px 0 0; /* ハートの半円を生成 */
+    display: block; /* ブロック要素にする */
+    position: absolute; /* 相対位置に指定 */
+  }
+  &::before {
+    transform: rotate(-45deg); /* 左に回転 */
+    left: 14%; /* 左からの位置を指定 */
+  }
+  &::after {
+    transform: rotate(45deg); /* 右に回転 */
+    right: 14%; /* 右からの位置を指定 */
+  }
+}
