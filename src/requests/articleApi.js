@@ -18,7 +18,7 @@ export const postArticle = async ({ title, data }) => {
       }
     );
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -37,9 +37,9 @@ export const editArticle = async ({ title, data, blog_id }) => {
 };
 
 export const articleDelete = async (id) => {
-    const res = await axios.get(API_URL + `delete/${id}`, {
-      headers: authHeader(),
-    });
+  const res = await axios.get(API_URL + `delete/${id}`, {
+    headers: authHeader(),
+  });
 };
 
 export const postComment = async ({ comment, blog_id }) => {
@@ -50,10 +50,32 @@ export const postComment = async ({ comment, blog_id }) => {
         text: comment,
         blog_id: blog_id,
       },
-      {
-        headers: authHeader(),
-      }
+      { headers: authHeader() }
     );
+  } catch (error) {
+    // console.log(error);
+  }
+};
+
+export const postLike = async (blog_id) => {
+  try {
+    let res = await axios.post(
+      API_URL + "like",
+      { blog_id: blog_id },
+      { headers: authHeader() }
+    );
+    return res.data.results;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteLike = async (blog_id) => {
+  try {
+    const res = await axios.delete(API_URL + "like", {
+      data: { blog_id },
+      headers: authHeader(),
+    });
   } catch (error) {
     console.log(error);
   }
@@ -65,7 +87,7 @@ export const getCommentList = async (article_id) => {
     let res = await axios.get(API_URL + `comment/${article_id}`);
     return res.data.results;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -77,6 +99,6 @@ export const commentDelete = async (comment_id) => {
       headers: authHeader(),
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };

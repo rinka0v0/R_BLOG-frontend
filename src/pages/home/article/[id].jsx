@@ -6,11 +6,15 @@ import { useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
 import Router, { useRouter } from "next/router";
 import FormButton from "../../../components/FormButton";
-import { articleDelete } from "../../../requests/articleApi";
+import {
+  articleDelete,
+  deleteLike,
+  postLike,
+} from "../../../requests/articleApi";
 import { EditorState, convertFromRaw } from "draft-js";
 import { memo } from "react";
-
 import dynamic from "next/dynamic";
+import Heart from "../../../components/Heart";
 const Wysiwyg = dynamic(() => import("../../../components/Wysiwyg/index"), {
   ssr: false,
 });
@@ -25,6 +29,7 @@ const fetchBlog = async (id) => {
     const blog = json.results[0];
     const contentState = convertFromRaw(JSON.parse(blog.body));
     const editorState = EditorState.createWithContent(contentState);
+    // ここでいいねの情報も取得したい。。。
     return {
       blog: blog,
       editorState: editorState,
@@ -41,7 +46,8 @@ const Article = memo(() => {
   const [blog, setBlog] = useState({});
   const [editorState, setEditorState] = useState();
   const [count, setCount] = useState(5);
-  // const [comments, setComments] = useState([]);
+
+  const [like, setLike] = useState(false);
 
   // useSWRで認証情報・コメントを取得
   const { user, loading, loggedIn } = useUser();
@@ -96,6 +102,18 @@ const Article = memo(() => {
     Router.replace(`/home/article/${blogId}/edit`);
   };
 
+  const clickHeart = () => {
+    if (like) {
+      console.log("いいねのキャンセル");
+      deleteLike(blog.id);
+      setLike(!like);
+    } else {
+      console.log("いいね！！");
+      postLike(blog.id);
+      setLike(!like);
+    }
+  };
+
   if (!loggedIn) {
     return <Loading />;
   }
@@ -119,9 +137,14 @@ const Article = memo(() => {
                 </>
               ) : null}
               <h1>{blog.title}</h1>
-              <p className={styles.autherName}>{blog.name}</p>
+              <p className={styles.autherName}>by {blog.name}</p>
               <p className={styles.createdDate}>{blog.created_at}</p>
               <Wysiwyg readOnly={true} data={editorState} mode="READ" />
+              <div className={styles.like}>
+                <span onClick={clickHeart}>
+                  <Heart isLike={like} />
+                </span>
+              </div>
               <div className={styles.comment}>
                 <h2>Comment</h2>
                 {comments !== undefined ? comments.slice(0, count) : <></>}

@@ -20,6 +20,7 @@ const fetchBlogs = async () => {
         key={index}
         url={`/home/article/${blog.id}`}
         author={blog.name}
+        likeNumber={blog.likes_number}
       />
     );
   });
