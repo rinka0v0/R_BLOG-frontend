@@ -12,7 +12,6 @@ import {
   postLike,
   verificationLike,
 } from "../../../requests/articleApi";
-import { EditorState, convertFromRaw } from "draft-js";
 import { memo } from "react";
 import dynamic from "next/dynamic";
 import Heart from "../../../components/Heart";

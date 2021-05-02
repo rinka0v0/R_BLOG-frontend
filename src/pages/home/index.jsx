@@ -32,8 +32,6 @@ const Home = memo(() => {
   const [blogs, setBlogs] = useState([]);
   const { user, loading, loggedIn } = useUser();
 
-  console.log(user);
-
   const handleShowMorePosts = () => {
     setCount((pre) => {
       setCount(pre + 10);
