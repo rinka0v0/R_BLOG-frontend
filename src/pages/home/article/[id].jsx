@@ -10,6 +10,7 @@ import {
   articleDelete,
   deleteLike,
   postLike,
+  verificationLike,
 } from "../../../requests/articleApi";
 import { EditorState, convertFromRaw } from "draft-js";
 import { memo } from "react";
@@ -21,23 +22,7 @@ const Wysiwyg = dynamic(() => import("../../../components/Wysiwyg/index"), {
 const Comment = dynamic(() => import("../../../components/Comment/index"), {
   ssr: false,
 });
-
-const fetchBlog = async (id) => {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}blogs/${id}`);
-    const json = await res.json();
-    const blog = json.results[0];
-    const contentState = convertFromRaw(JSON.parse(blog.body));
-    const editorState = EditorState.createWithContent(contentState);
-    // ここでいいねの情報も取得したい。。。
-    return {
-      blog: blog,
-      editorState: editorState,
-    };
-  } catch (err) {
-    console.log(err);
-  }
-};
+import { fetchBlog } from "../../../requests/articleApi";
 
 const Article = memo(() => {
   const router = useRouter();
@@ -63,6 +48,13 @@ const Article = memo(() => {
     if (blogId) {
       const fetchAndSetBlog = async () => {
         const { blog, editorState } = await fetchBlog(blogId);
+        const isLike = await verificationLike(blogId);
+        console.log(isLike);
+        if (isLike) {
+          setLike(true);
+        } else {
+          setLike(false);
+        }
         setBlog(blog);
         setEditorState(editorState);
       };

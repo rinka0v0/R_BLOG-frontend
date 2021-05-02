@@ -1,5 +1,6 @@
 import axios from "axios";
 import { authHeader } from "./auth_header";
+import { EditorState, convertFromRaw } from "draft-js";
 
 axios.defaults.withCredentials = true;
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -80,6 +81,16 @@ export const deleteLike = async (blog_id) => {
     console.log(error);
   }
 };
+export const verificationLike = async (blog_id) => {
+  try {
+    const res = await axios.get(`${API_URL}like/${blog_id}`, {
+      headers: authHeader(),
+    });
+    return res.data.result[0].likes_number
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // コメント一覧を取得
 export const getCommentList = async (article_id) => {
@@ -100,5 +111,22 @@ export const commentDelete = async (comment_id) => {
     });
   } catch (error) {
     // console.log(error);
+  }
+};
+
+export const fetchBlog = async (id) => {
+  try {
+    const jsonBlog = await axios.get(`${API_URL}blogs/${id}`, {
+      headers: authHeader(),
+    });
+    const blog = jsonBlog.data.results[0];
+    const contentState = convertFromRaw(JSON.parse(blog.body));
+    const editorState = EditorState.createWithContent(contentState);
+    return {
+      blog: blog,
+      editorState: editorState,
+    };
+  } catch (err) {
+    console.log(err);
   }
 };
