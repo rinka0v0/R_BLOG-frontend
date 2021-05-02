@@ -1,4 +1,3 @@
-import { EditorState, convertFromRaw } from "draft-js";
 import styles from "../../../../styles/article.module.scss";
 import dynamic from "next/dynamic";
 import Router, { useRouter } from "next/router";

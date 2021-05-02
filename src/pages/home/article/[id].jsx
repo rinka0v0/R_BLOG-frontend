@@ -48,7 +48,6 @@ const Article = memo(() => {
       const fetchAndSetBlog = async () => {
         const { blog, editorState } = await fetchBlog(blogId);
         const isLike = await verificationLike(blogId);
-        console.log(isLike);
         if (isLike) {
           setLike(true);
         } else {
@@ -84,7 +83,7 @@ const Article = memo(() => {
         articleDelete(blog.id);
         Router.replace("/home");
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
   };
@@ -95,11 +94,9 @@ const Article = memo(() => {
 
   const clickHeart = () => {
     if (like) {
-      console.log("いいねのキャンセル");
       deleteLike(blog.id);
       setLike(!like);
     } else {
-      console.log("いいね！！");
       postLike(blog.id);
       setLike(!like);
     }
