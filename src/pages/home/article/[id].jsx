@@ -6,33 +6,23 @@ import { useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
 import Router, { useRouter } from "next/router";
 import FormButton from "../../../components/FormButton";
-import { articleDelete } from "../../../requests/articleApi";
+import {
+  articleDelete,
+  deleteLike,
+  postLike,
+  verificationLike,
+} from "../../../requests/articleApi";
 import { EditorState, convertFromRaw } from "draft-js";
 import { memo } from "react";
-
 import dynamic from "next/dynamic";
+import Heart from "../../../components/Heart";
 const Wysiwyg = dynamic(() => import("../../../components/Wysiwyg/index"), {
   ssr: false,
 });
 const Comment = dynamic(() => import("../../../components/Comment/index"), {
   ssr: false,
 });
-
-const fetchBlog = async (id) => {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}blogs/${id}`);
-    const json = await res.json();
-    const blog = json.results[0];
-    const contentState = convertFromRaw(JSON.parse(blog.body));
-    const editorState = EditorState.createWithContent(contentState);
-    return {
-      blog: blog,
-      editorState: editorState,
-    };
-  } catch (err) {
-    console.log(err);
-  }
-};
+import { fetchBlog } from "../../../requests/articleApi";
 
 const Article = memo(() => {
   const router = useRouter();
@@ -41,7 +31,8 @@ const Article = memo(() => {
   const [blog, setBlog] = useState({});
   const [editorState, setEditorState] = useState();
   const [count, setCount] = useState(5);
-  // const [comments, setComments] = useState([]);
+
+  const [like, setLike] = useState(false);
 
   // useSWRで認証情報・コメントを取得
   const { user, loading, loggedIn } = useUser();
@@ -57,6 +48,13 @@ const Article = memo(() => {
     if (blogId) {
       const fetchAndSetBlog = async () => {
         const { blog, editorState } = await fetchBlog(blogId);
+        const isLike = await verificationLike(blogId);
+        console.log(isLike);
+        if (isLike) {
+          setLike(true);
+        } else {
+          setLike(false);
+        }
         setBlog(blog);
         setEditorState(editorState);
       };
@@ -96,6 +94,18 @@ const Article = memo(() => {
     Router.replace(`/home/article/${blogId}/edit`);
   };
 
+  const clickHeart = () => {
+    if (like) {
+      console.log("いいねのキャンセル");
+      deleteLike(blog.id);
+      setLike(!like);
+    } else {
+      console.log("いいね！！");
+      postLike(blog.id);
+      setLike(!like);
+    }
+  };
+
   if (!loggedIn) {
     return <Loading />;
   }
@@ -119,9 +129,14 @@ const Article = memo(() => {
                 </>
               ) : null}
               <h1>{blog.title}</h1>
-              <p className={styles.autherName}>{blog.name}</p>
+              <p className={styles.autherName}>by {blog.name}</p>
               <p className={styles.createdDate}>{blog.created_at}</p>
               <Wysiwyg readOnly={true} data={editorState} mode="READ" />
+              <div className={styles.like}>
+                <span onClick={clickHeart}>
+                  <Heart isLike={like} />
+                </span>
+              </div>
               <div className={styles.comment}>
                 <h2>Comment</h2>
                 {comments !== undefined ? comments.slice(0, count) : <></>}
