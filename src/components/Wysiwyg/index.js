@@ -10,16 +10,19 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { memo } from "react";
 
 const Wysiwyg = memo((props) => {
-  const [editorState, setEditorState] = useState(props.data);
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
 
   const [title, setTitle] = useState(props.title);
   const [err, setErr] = useState("");
 
   const saveArticle = async () => {
+    const data = editorState.getCurrentContent();
     if (editorState && title.trim().length !== 0) {
-      const data = editorState.getCurrentContent();
       try {
         const content = JSON.stringify(convertToRaw(data));
+        console.log(content);
         const res = await postArticle({ title: title, data: content });
         Router.replace("/home");
       } catch (error) {
@@ -47,8 +50,13 @@ const Wysiwyg = memo((props) => {
     } else {
       setErr("lack");
     }
-    console.log("edit!!");
   };
+
+  useEffect(() => {
+    if (props.data) {
+      setEditorState(props.data);
+    }
+  }, [props.data]);
 
   return (
     <div className={styles.container}>
