@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "../Wysiwyg/index.module.scss";
@@ -10,14 +10,18 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { memo } from "react";
 
 const Wysiwyg = memo((props) => {
+  const processing = useRef(false);
+
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-
   const [title, setTitle] = useState(props.title);
   const [err, setErr] = useState("");
 
   const saveArticle = async () => {
+    if (processing.current) return;
+    processing.current = true;
+
     const data = editorState.getCurrentContent();
     if (editorState && title.trim().length !== 0) {
       try {
@@ -31,9 +35,13 @@ const Wysiwyg = memo((props) => {
     } else {
       setErr("lack");
     }
+    processing.current = false;
   };
 
   const rePostArticle = async () => {
+    if (processing.current) return;
+    processing.current = true;
+
     const data = editorState.getCurrentContent();
     if (title.trim().length !== 0 && data) {
       try {
@@ -44,12 +52,14 @@ const Wysiwyg = memo((props) => {
           blog_id: props.blog_id,
         });
         Router.replace("/home");
+        processing.current = true;
       } catch (error) {
         setErr("err");
       }
     } else {
       setErr("lack");
     }
+    processing.current = false;
   };
 
   useEffect(() => {

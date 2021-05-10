@@ -24,13 +24,13 @@ const Comment = dynamic(() => import("../../../components/Comment/index"), {
 import { fetchBlog } from "../../../requests/articleApi";
 
 const Article = memo(() => {
+  console.log("レンダリングがされました！！");
   const router = useRouter();
 
   const [blogId, setBlogId] = useState();
   const [blog, setBlog] = useState({});
   const [editorState, setEditorState] = useState();
   const [count, setCount] = useState(5);
-
   const [like, setLike] = useState(false);
 
   // useSWRで認証情報・コメントを取得
@@ -77,13 +77,13 @@ const Article = memo(() => {
     });
   };
 
-  const onDeleteClick = () => {
+  const onDeleteClick = async () => {
     if (confirm("記事を削除しますか？")) {
       try {
-        articleDelete(blog.id);
+        await articleDelete(blog.id);
         Router.replace("/home");
       } catch (error) {
-        // console.log(error);
+        console.log(error);
       }
     }
   };
