@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "../Comment/index.module.scss";
@@ -8,12 +8,15 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const Comment = (props) => {
+  const processing = useRef(false);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
   const [err, setErr] = useState("");
 
   const saveComment = async () => {
+    if (processing.current) return;
+    processing.current = true;
     const data = editorState.getCurrentContent();
     if (data) {
       try {
@@ -27,6 +30,7 @@ const Comment = (props) => {
     } else {
       setErr("lack");
     }
+    processing.current = false;
   };
 
   return (
