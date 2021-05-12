@@ -81,12 +81,13 @@ export const deleteLike = async (blog_id) => {
     console.log(error);
   }
 };
+
 export const verificationLike = async (blog_id) => {
   try {
     const res = await axios.get(`${API_URL}like/${blog_id}`, {
       headers: authHeader(),
     });
-    return res.data.result[0].likes_number
+    return res.data.result[0].likes_number;
   } catch (error) {
     console.log(error);
   }
@@ -128,5 +129,21 @@ export const fetchBlog = async (id) => {
     };
   } catch (err) {
     console.log(err);
+    return {
+      blog: [],
+    };
+  }
+};
+
+export const getUserBlog = async (userId) => {
+  try {
+    const jsonBlog = await axios.get(`${API_URL}blogs/user/${userId}`, {
+      headers: authHeader(),
+    });
+    const blogs = jsonBlog.data.results;
+    return blogs;
+  } catch (error) {
+    console.log(error);
+    return {};
   }
 };

@@ -1,13 +1,12 @@
 import NavList from "../../components/NavList/index";
 import useUser from "../../data/useUser";
 import Router from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Loading from "../../components/Loading/index";
 import ArticleList from "../../components/ArticleList";
 import styles from "../../styles/homePage.module.scss";
 import Head from "next/head";
 import FormButton from "../../components/FormButton/index";
-import { memo } from "react";
 
 const fetchBlogs = async () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -27,16 +26,17 @@ const fetchBlogs = async () => {
   return blogs;
 };
 
-const Home = memo(() => {
+const Home = () => {
   const [count, setCount] = useState(10);
   const [blogs, setBlogs] = useState([]);
+
   const { user, loading, loggedIn } = useUser();
 
-  const handleShowMorePosts = () => {
+  const handleShowMorePosts = useCallback(() => {
     setCount((pre) => {
       setCount(pre + 10);
     });
-  };
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -58,13 +58,10 @@ const Home = memo(() => {
     }
   }, [loading]);
 
-  if (!loggedIn) {
+  if (!loggedIn || loading) {
     return <Loading />;
   }
-  if (loading) {
-    return <Loading />;
-  }
-  if (loggedIn && user) {
+  if (!loading && loggedIn && user) {
     return (
       <>
         <Head>
@@ -81,7 +78,6 @@ const Home = memo(() => {
               <FormButton
                 value="MORE"
                 onClick={handleShowMorePosts}
-                className={styles.moreBtn}
               />
             ) : null}
           </div>
@@ -91,6 +87,6 @@ const Home = memo(() => {
       </>
     );
   }
-});
+};
 
 export default Home;

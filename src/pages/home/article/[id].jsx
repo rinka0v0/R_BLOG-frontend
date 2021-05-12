@@ -2,7 +2,7 @@ import NavList from "../../../components/NavList/index";
 import styles from "../../../styles/article.module.scss";
 import useUser from "../../../data/useUser";
 import useCommentListGet from "../../../data/useCommentListGet";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Loading from "../../../components/Loading";
 import Router, { useRouter } from "next/router";
 import FormButton from "../../../components/FormButton";
@@ -12,7 +12,6 @@ import {
   postLike,
   verificationLike,
 } from "../../../requests/articleApi";
-import { memo } from "react";
 import dynamic from "next/dynamic";
 import Heart from "../../../components/Heart";
 const Wysiwyg = dynamic(() => import("../../../components/Wysiwyg/index"), {
@@ -22,9 +21,9 @@ const Comment = dynamic(() => import("../../../components/Comment/index"), {
   ssr: false,
 });
 import { fetchBlog } from "../../../requests/articleApi";
+import Link from "next/link";
 
-const Article = memo(() => {
-  console.log("レンダリングがされました！！");
+const Article = () => {
   const router = useRouter();
 
   const [blogId, setBlogId] = useState();
@@ -36,6 +35,7 @@ const Article = memo(() => {
   // useSWRで認証情報・コメントを取得
   const { user, loading, loggedIn } = useUser();
   const { comments, commentMutate } = useCommentListGet(blogId, user);
+  const CommentList = comments !== undefined ? comments.slice(0, count) : null;
 
   useEffect(() => {
     if (router.asPath !== router.route) {
@@ -50,8 +50,6 @@ const Article = memo(() => {
         const isLike = await verificationLike(blogId);
         if (isLike) {
           setLike(true);
-        } else {
-          setLike(false);
         }
         setBlog(blog);
         setEditorState(editorState);
@@ -69,15 +67,15 @@ const Article = memo(() => {
     };
     fetchUser();
     commentMutate();
-  });
+  }, []);
 
-  const handleShowMorePosts = () => {
+  const handleShowMorePosts = useCallback(() => {
     setCount((pre) => {
       setCount(pre + 5);
     });
-  };
+  }, []);
 
-  const onDeleteClick = async () => {
+  const onDeleteClick = useCallback(async () => {
     if (confirm("記事を削除しますか？")) {
       try {
         await articleDelete(blog.id);
@@ -86,13 +84,13 @@ const Article = memo(() => {
         console.log(error);
       }
     }
-  };
+  }, []);
 
-  const onEditClick = () => {
+  const onEditClick = useCallback(() => {
     Router.replace(`/home/article/${blogId}/edit`);
-  };
+  }, []);
 
-  const clickHeart = () => {
+  const clickHeart = useCallback(() => {
     if (like) {
       deleteLike(blog.id);
       setLike(!like);
@@ -100,12 +98,9 @@ const Article = memo(() => {
       postLike(blog.id);
       setLike(!like);
     }
-  };
+  }, [blog]);
 
-  if (!loggedIn) {
-    return <Loading />;
-  }
-  if (loading) {
+  if (!loggedIn || loading) {
     return <Loading />;
   }
   if (loggedIn && user) {
@@ -124,8 +119,10 @@ const Article = memo(() => {
                   <FormButton value="EDIT" onClick={onEditClick} />
                 </>
               ) : null}
+              <Link href={"/home/user/" + blog.user_id}>
+                <p className={styles.autherName}>by {blog.name}</p>
+              </Link>
               <h1>{blog.title}</h1>
-              <p className={styles.autherName}>by {blog.name}</p>
               <p className={styles.createdDate}>{blog.created_at}</p>
               <Wysiwyg readOnly={true} data={editorState} mode="READ" />
               <div className={styles.like}>
@@ -135,7 +132,8 @@ const Article = memo(() => {
               </div>
               <div className={styles.comment}>
                 <h2>Comment</h2>
-                {comments !== undefined ? comments.slice(0, count) : <></>}
+                {/* {CommentList} */}
+                {comments !== undefined ? comments.slice(0, count) : null}
               </div>
               {comments !== undefined && comments.length > count ? (
                 <FormButton
@@ -151,6 +149,6 @@ const Article = memo(() => {
       </>
     );
   }
-});
+};
 
 export default Article;

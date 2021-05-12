@@ -10,11 +10,18 @@
     padding: 1em;
   }
   .autherName {
+    color:  #4c9eeb;
     font-size: 1.2em;
-    text-align: right;
+    padding-left: 1.67em;
+    display: block;
+    position: relative;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
   }
   .createdDate {
-    font-size: .875em;
+    font-size: 0.875em;
     text-align: right;
     user-select: none;
   }

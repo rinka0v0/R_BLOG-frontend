@@ -1,0 +1,14 @@
+.container {
+  h1 {
+    text-align: center;
+  }
+  .articleArea {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 3em;
+  }
+  input[type="submit"] {
+    margin: 1em auto;
+  }
+}
