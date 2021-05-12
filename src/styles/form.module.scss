@@ -51,7 +51,7 @@
     margin-right: 1em;
   }
   .link {
-    color: #1972d1;
+    color: #4c9eeb;
     text-align: center;
     position: relative;
     &::after {
@@ -60,7 +60,7 @@
       left: 50%;
       width: 0;
       height: 1px;
-      background: #1972d1;
+      color: #4c9eeb;
       content: "";
       transition: 0.3s;
       transform: translateX(-50%);

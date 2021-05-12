@@ -12,6 +12,11 @@ const NavList = () => {
             </Link>
           </li>
           <li>
+            <Link href="/home/mypage">
+              <a>MYPAGE</a>
+            </Link>
+          </li>
+          <li>
             <Link href="/home/post">
               <a>POST</a>
             </Link>

@@ -38,9 +38,56 @@ export const getUser = async () => {
   }
 };
 
+// ユーザーの記事一覧を取得
+export const aboutUser = async (userId) => {
+  try {
+    const res = await axios.get(API_URL + `aboutUser/${userId}`, {
+      headers: authHeader(),
+    });
+    return res.data.results[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const follow = async (follow_id) => {
+  try {
+    const res = await axios.post(
+      API_URL + "follow",
+      { follow_id },
+      { headers: authHeader() }
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const unFollow = async (follow_id) => {
+  try {
+    const res = await axios.delete(API_URL + "follow", {
+      data: { follow_id },
+      headers: authHeader(),
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const verificationFollow = async (follow_id) => {
+  try {
+    const res = await axios.get(`${API_URL}follow/${follow_id}`, {
+      headers: authHeader(),
+    });
+    return res.data.result[0].follow;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const logout = async () => {
   try {
-    // const res = await axios.get(API_URL + "logout");
     localStorage.removeItem("token");
   } catch (error) {
     console.log(error);
