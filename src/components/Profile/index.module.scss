@@ -1,17 +1,15 @@
-.name {
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: bold;
-  padding: 1em 0;
-}
+.container {
+  padding: 2em;
+  .name {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 1em 0;
+  }
 
-.follower_like_erea {
-  margin-top: 2em;
-  display: flex;
-  justify-content: space-around;
-}
-
-.profile {
-  width: 80%;
-  margin: 0 auto;
+  .follower_like_erea {
+    margin-top: 2em;
+    display: flex;
+    justify-content: space-around;
+  }
+  
 }

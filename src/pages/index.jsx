@@ -13,7 +13,7 @@ const IndexPage = () => {
     if (!loading && user) {
       Router.replace("/home");
     }
-  }, [loggedIn]);
+  }, [loading,user]);
 
   if (loggedIn) {
     return <Loading />;

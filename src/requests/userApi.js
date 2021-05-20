@@ -86,6 +86,23 @@ export const verificationFollow = async (follow_id) => {
   }
 };
 
+export const postProfile = async (profile) => {
+  try {
+    const res = await axios.put(
+      API_URL + "user",
+      {
+        profile: profile,
+      },
+      {
+        headers: authHeader(),
+      }
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const logout = async () => {
   try {
     localStorage.removeItem("token");
