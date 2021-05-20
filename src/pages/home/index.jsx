@@ -75,10 +75,7 @@ const Home = () => {
               {blogs.length ? blogs.slice(0, count) : null}
             </div>
             {blogs.length > count ? (
-              <FormButton
-                value="MORE"
-                onClick={handleShowMorePosts}
-              />
+              <FormButton value="MORE" onClick={handleShowMorePosts} />
             ) : null}
           </div>
         ) : (

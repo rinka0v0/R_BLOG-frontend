@@ -1,18 +1,19 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import ArticleList from "../../components/ArticleList";
-import FormButton from "../../components/FormButton";
-import Loading from "../../components/Loading";
-import NavList from "../../components/NavList";
-import { Profile } from "../../components/Profile";
-import useUser from "../../data/useUser";
-import { getUserBlog } from "../../requests/articleApi";
-import { aboutUser } from "../../requests/userApi";
-import styles from "../../styles/user.module.scss";
+import { Profile } from "../../../components/Profile";
+import { aboutUser } from "../../../requests/userApi";
+import styles from "../../../styles/user.module.scss";
+import NavList from "../../../components/NavList/index";
+import { getUserBlog } from "../../../requests/articleApi";
+import ArticleList from "../../../components/ArticleList";
+import FormButton from "../../../components/FormButton";
+import useUser from "../../../data/useUser";
+import Loading from "../../../components/Loading";
+import Router from "next/router";
+import Link from "next/link";
 
 const Mypage = () => {
   const router = useRouter();
-  const [userId, setUserId] = useState(false);
   const [userProfile, setUserProfile] = useState();
   const [blogs, setBlogs] = useState([]);
   const [count, setCount] = useState(10);
@@ -86,20 +87,23 @@ const Mypage = () => {
       <div className={styles.container}>
         <NavList />
         {/* <input
-        type="file"
-        onChange={(e) => {
-          onFileChange(e);
-        }}
-      />
-      {images ? (
-        <div>
-          <img src={images} />
-        </div>
-      ) : null} */}
+          type="file"
+          onChange={(e) => {
+            onFileChange(e);
+          }}
+        />
+        {images ? (
+          <div>
+            <img src={images} />
+          </div>
+        ) : null} */}
+        <Link href="/home/mypage/edit">
+          <div className={styles.editBtn}>EDIT</div>
+        </Link>
         <Profile user={userProfile} />
         <h1>Latest Articles </h1>
         <div className={styles.articleArea}>
-          {blogs.length ? blogs.slice(0, 5) : <div>Not found articles</div>}
+          {blogs.length ? blogs.slice(0, count) : <div>Not found articles</div>}
         </div>
         {blogs.length > count ? (
           <FormButton value="MORE" onClick={handleShowMorePosts} />
@@ -108,5 +112,4 @@ const Mypage = () => {
     );
   }
 };
-
 export default Mypage;

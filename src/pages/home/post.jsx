@@ -15,13 +15,10 @@ const Post = () => {
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (!loading && !user) {
-        Router.replace("/signIn");
-      }
-    };
-    fetchUser();
-  }, [loggedIn]);
+    if (!loading && !user) {
+      Router.replace("/signIn");
+    }
+  }, [loading, user]);
 
   if (!loggedIn) {
     return <Loading />;
