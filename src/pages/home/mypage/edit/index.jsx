@@ -21,7 +21,7 @@ const MypageEdit = () => {
   const onSaveClick = async (e) => {
     e.preventDefault();
     const res = await postProfile(profile);
-    Router.replace('/home/mypage')
+    Router.replace("/home/mypage");
   };
 
   useEffect(() => {
@@ -65,8 +65,8 @@ const MypageEdit = () => {
           </label>
           <FormButton value="SAVE" />
         </form>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };

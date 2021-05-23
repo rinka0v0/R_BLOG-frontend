@@ -80,14 +80,14 @@ const Mypage = () => {
   if (!loggedIn || loading) {
     return <Loading />;
   }
-  if (!userProfile || userProfile.id === null) {
-    return <Loading />;
-  }
+  // if (!userProfile || userProfile.id === null) {
+  //   return <Loading />;
+  // }
   if (!loading && loggedIn && user) {
     return (
       <>
+        <NavList />
         <div className={styles.container}>
-          <NavList />
           {/* <input
           type="file"
           onChange={(e) => {
@@ -108,13 +108,14 @@ const Mypage = () => {
             {blogs.length ? (
               blogs.slice(0, count)
             ) : (
-              <div>Not found articles</div>
+              // <div>Not found articles</div>
+              null
             )}
           </div>
           {blogs.length > count ? (
             <FormButton value="MORE" onClick={handleShowMorePosts} />
           ) : null}
-        <Footer />
+          <Footer />
         </div>
       </>
     );

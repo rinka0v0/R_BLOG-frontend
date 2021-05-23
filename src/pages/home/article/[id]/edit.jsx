@@ -67,9 +67,9 @@ const EditPage = () => {
               blog_id={blog.id}
               mode="EDIT"
             />
+            <Footer />
           </div>
         )}
-        <Footer />
       </>
     );
   }
