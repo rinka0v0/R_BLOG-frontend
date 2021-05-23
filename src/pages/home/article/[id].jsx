@@ -88,7 +88,7 @@ const Article = () => {
 
   const onEditClick = useCallback(() => {
     Router.replace(`/home/article/${blogId}/edit`);
-  }, []);
+  }, [blogId]);
 
   const clickHeart = useCallback(() => {
     if (like) {
