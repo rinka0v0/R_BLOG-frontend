@@ -22,6 +22,7 @@ const Comment = dynamic(() => import("../../../components/Comment/index"), {
 });
 import { fetchBlog } from "../../../requests/articleApi";
 import Link from "next/link";
+import Footer from "../../../components/Footer";
 
 const Article = () => {
   const router = useRouter();
@@ -84,7 +85,7 @@ const Article = () => {
         console.log(error);
       }
     }
-  }, []);
+  }, [blog]);
 
   const onEditClick = useCallback(() => {
     Router.replace(`/home/article/${blogId}/edit`);
@@ -143,6 +144,7 @@ const Article = () => {
                 />
               ) : null}
               <Comment blog_id={blog.id} mutate={commentMutate} />
+              <Footer />
             </div>
           </>
         )}

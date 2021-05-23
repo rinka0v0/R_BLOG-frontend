@@ -15,6 +15,7 @@ import FormButton from "../../../components/FormButton";
 import useUser from "../../../data/useUser";
 import Loading from "../../../components/Loading";
 import Router from "next/router";
+import Footer from "../../../components/Footer";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -105,22 +106,25 @@ const ProfilePage = () => {
   }
   if (!loading && loggedIn && user) {
     return (
-      <div className={styles.container}>
-        <NavList />
-        <Profile user={userProfile} />
-        {isFollow ? (
-          <FormButton value="UnFollow" onClick={clickUnFollow} />
-        ) : (
-          <FormButton value="Follow" onClick={clickFollow} />
-        )}
-        <h1>Latest Articles </h1>
-        <div className={styles.articleArea}>
-          {blogs.length ? blogs.slice(0, 5) : <div>Not found articles</div>}
+      <>
+        <div className={styles.container}>
+          <NavList />
+          <Profile user={userProfile} />
+          {isFollow ? (
+            <FormButton value="UnFollow" onClick={clickUnFollow} />
+          ) : (
+            <FormButton value="Follow" onClick={clickFollow} />
+          )}
+          <h1>Latest Articles </h1>
+          <div className={styles.articleArea}>
+            {blogs.length ? blogs.slice(0, 5) : <div>Not found articles</div>}
+          </div>
+          {blogs.length > count ? (
+            <FormButton value="MORE" onClick={handleShowMorePosts} />
+          ) : null}
         </div>
-        {blogs.length > count ? (
-          <FormButton value="MORE" onClick={handleShowMorePosts} />
-        ) : null}
-      </div>
+        <Footer />
+      </>
     );
   }
 };

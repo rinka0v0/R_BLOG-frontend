@@ -6,6 +6,7 @@ import useUser from "../../../../data/useUser";
 import { aboutUser, postProfile } from "../../../../requests/userApi";
 import styles from "../../../../styles/user.module.scss";
 import Router from "next/router";
+import Footer from "../../../../components/Footer";
 
 const MypageEdit = () => {
   const [profile, setProfile] = useState("");
@@ -20,7 +21,7 @@ const MypageEdit = () => {
   const onSaveClick = async (e) => {
     e.preventDefault();
     const res = await postProfile(profile);
-    Router.replace('/home/mypage')
+    Router.replace("/home/mypage");
   };
 
   useEffect(() => {
@@ -64,6 +65,7 @@ const MypageEdit = () => {
           </label>
           <FormButton value="SAVE" />
         </form>
+        <Footer />
       </div>
     </>
   );

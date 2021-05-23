@@ -5,6 +5,7 @@ import useUser from "../data/useUser";
 import { useEffect } from "react";
 import Router from "next/router";
 import Loading from "../components/Loading";
+import Footer from "../components/Footer";
 
 const IndexPage = () => {
   const { loggedIn, loading, user } = useUser();
@@ -13,7 +14,7 @@ const IndexPage = () => {
     if (!loading && user) {
       Router.replace("/home");
     }
-  }, [loading,user]);
+  }, [loading, user]);
 
   if (loggedIn) {
     return <Loading />;
@@ -23,19 +24,30 @@ const IndexPage = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <h1>R_BLOG</h1>
-      <div className={styles.illustrations}>
-        <Image
-          src="/undraw_Sharing_articles_re_jnkp.svg"
-          alt="Picture of sharing article"
-          width={300}
-          height={300}
+    <>
+      <div className={styles.container}>
+        <h1>R_BLOG</h1>
+        <div className={styles.illustrations}>
+          <Image
+            src="/undraw_Sharing_articles_re_jnkp.svg"
+            alt="Picture of sharing article"
+            width={300}
+            height={300}
+          />
+        </div>
+        <LinkButton
+          value="SIGN UP"
+          url="/signUp"
+          className={styles.linkButton}
+        />
+        <LinkButton
+          value="SIGN IN"
+          url="/signIn"
+          className={styles.linkButton}
         />
       </div>
-      <LinkButton value="SIGN UP" url="/signUp" className={styles.linkButton} />
-      <LinkButton value="SIGN IN" url="/signIn" className={styles.linkButton} />
-    </div>
+      <Footer />
+    </>
   );
 };
 

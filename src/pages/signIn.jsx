@@ -8,6 +8,7 @@ import { signIn } from "../requests/userApi";
 import Loading from "../components/Loading/index";
 import styles from "../styles/form.module.scss";
 import { memo } from "react";
+import Footer from "../components/Footer";
 
 const SignIn = memo(() => {
   const [name, setName] = useState("");
@@ -88,6 +89,7 @@ const SignIn = memo(() => {
           </Link>
         </div>
       </form>
+      <Footer />
     </>
   );
 });

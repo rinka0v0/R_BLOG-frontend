@@ -11,6 +11,7 @@ import useUser from "../../../data/useUser";
 import Loading from "../../../components/Loading";
 import Router from "next/router";
 import Link from "next/link";
+import Footer from "../../../components/Footer";
 
 const Mypage = () => {
   const router = useRouter();
@@ -79,14 +80,15 @@ const Mypage = () => {
   if (!loggedIn || loading) {
     return <Loading />;
   }
-  if (!userProfile || userProfile.id === null) {
-    return <Loading />;
-  }
+  // if (!userProfile || userProfile.id === null) {
+  //   return <Loading />;
+  // }
   if (!loading && loggedIn && user) {
     return (
-      <div className={styles.container}>
+      <>
         <NavList />
-        {/* <input
+        <div className={styles.container}>
+          {/* <input
           type="file"
           onChange={(e) => {
             onFileChange(e);
@@ -97,18 +99,25 @@ const Mypage = () => {
             <img src={images} />
           </div>
         ) : null} */}
-        <Link href="/home/mypage/edit">
-          <div className={styles.editBtn}>EDIT</div>
-        </Link>
-        <Profile user={userProfile} />
-        <h1>Latest Articles </h1>
-        <div className={styles.articleArea}>
-          {blogs.length ? blogs.slice(0, count) : <div>Not found articles</div>}
+          <Link href="/home/mypage/edit">
+            <div className={styles.editBtn}>EDIT</div>
+          </Link>
+          <Profile user={userProfile} />
+          <h1>Latest Articles </h1>
+          <div className={styles.articleArea}>
+            {blogs.length ? (
+              blogs.slice(0, count)
+            ) : (
+              // <div>Not found articles</div>
+              null
+            )}
+          </div>
+          {blogs.length > count ? (
+            <FormButton value="MORE" onClick={handleShowMorePosts} />
+          ) : null}
+          <Footer />
         </div>
-        {blogs.length > count ? (
-          <FormButton value="MORE" onClick={handleShowMorePosts} />
-        ) : null}
-      </div>
+      </>
     );
   }
 };
