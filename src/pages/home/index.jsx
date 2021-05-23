@@ -8,6 +8,7 @@ import styles from "../../styles/homePage.module.scss";
 import Head from "next/head";
 import FormButton from "../../components/FormButton/index";
 import Footer from "../../components/Footer";
+import { getFollowBlogs, mostLikeBlogs } from "../../requests/articleApi";
 
 const fetchBlogs = async () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -29,7 +30,11 @@ const fetchBlogs = async () => {
 
 const Home = () => {
   const [count, setCount] = useState(10);
+  const [fallowCount, setFallowCount] = useState(10);
+
   const [blogs, setBlogs] = useState([]);
+  const [likeBlogs, setLikeBlogs] = useState([]);
+  const [followBlogs, setFollowBlogs] = useState([]);
 
   const { user, loading, loggedIn } = useUser();
 
@@ -38,13 +43,22 @@ const Home = () => {
       setCount(pre + 10);
     });
   }, []);
+  const handleShowMoreFollowPosts = useCallback(() => {
+    setCount((pre) => {
+      setFallowCount(pre + 10);
+    });
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
     const fetchAndSetBlos = async () => {
       const blogs = await fetchBlogs();
+      const likeBlogs = await mostLikeBlogs();
+      const followBlogs = await getFollowBlogs();
       if (isMounted) {
         setBlogs(blogs);
+        setFollowBlogs(followBlogs);
+        setLikeBlogs(likeBlogs);
       }
     };
     fetchAndSetBlos();
@@ -69,20 +83,39 @@ const Home = () => {
           <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
         <NavList />
-        {blogs.length ? (
-          <div className={styles.container}>
-            <h1 className={styles.title}>Latest articles</h1>
-            <div className={styles.articleList}>
-              {blogs.length ? blogs.slice(0, count) : null}
+        <div className={styles.container}>
+          {followBlogs.length ? (
+            <div>
+              <h1 className={styles.title}>フォロー中の人の投稿</h1>
+              <div className={styles.articleList}>
+                {followBlogs.slice(0, count)}
+              </div>
+              {blogs.length > fallowCount ? (
+                <FormButton value="MORE" onClick={handleShowMoreFollowPosts} />
+              ) : null}
             </div>
-            {blogs.length > count ? (
-              <FormButton value="MORE" onClick={handleShowMorePosts} />
-            ) : null}
-            <Footer />
-          </div>
-        ) : (
-          <Loading />
-        )}
+          ) : null}
+
+          {likeBlogs.length ? (
+            <div>
+              <h1 className={styles.title}>最もいいねがついた投稿</h1>
+              <div className={styles.articleList}>
+                {likeBlogs.slice(0, count)}
+              </div>
+            </div>
+          ) : null}
+
+          {blogs.length ? (
+            <div>
+              <h1 className={styles.title}>最近の投稿</h1>
+              <div className={styles.articleList}>{blogs.slice(0, count)}</div>
+              {blogs.length > count ? (
+                <FormButton value="MORE" onClick={handleShowMorePosts} />
+              ) : null}
+              <Footer />
+            </div>
+          ) : null}
+        </div>
       </>
     );
   }

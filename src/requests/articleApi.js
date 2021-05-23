@@ -1,6 +1,7 @@
 import axios from "axios";
 import { authHeader } from "./auth_header";
 import { EditorState, convertFromRaw } from "draft-js";
+import ArticleList from "../components/ArticleList";
 
 axios.defaults.withCredentials = true;
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -127,6 +128,60 @@ export const fetchBlog = async (id) => {
       blog: blog,
       editorState: editorState,
     };
+  } catch (err) {
+    console.log(err);
+    return {
+      blog: [],
+    };
+  }
+};
+
+// フォロー中の人の記事を取得
+export const getFollowBlogs = async () => {
+  try {
+    const jsonBlog = await axios.get(`${API_URL}blogs/follow`, {
+      headers: authHeader(),
+    });
+    const blog = jsonBlog.data.results;
+    const blogs = blog.map((blog, index) => {
+      return (
+        <ArticleList
+          title={blog.title}
+          key={index}
+          url={`/home/article/${blog.id}`}
+          author={blog.name}
+          likeNumber={blog.likes_number}
+        />
+      );
+    });
+    return blogs;
+  } catch (err) {
+    console.log(err);
+    return {
+      blog: [],
+    };
+  }
+};
+// いいねが多い記事の取得
+export const mostLikeBlogs = async () => {
+  try {
+    const jsonBlog = await axios.get(`${API_URL}blogs/like`, {
+      headers: authHeader(),
+    });
+    const blog = jsonBlog.data.results;
+    const blogs = blog.map((blog, index) => {
+      console.log(blog)
+      return (
+        <ArticleList
+          title={blog.title}
+          key={index}
+          url={`/home/article/${blog.id}`}
+          author={blog.name}
+          likeNumber={blog.likes_number}
+        />
+      );
+    });
+    return blogs;
   } catch (err) {
     console.log(err);
     return {
