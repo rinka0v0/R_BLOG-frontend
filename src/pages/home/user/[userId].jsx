@@ -107,8 +107,8 @@ const ProfilePage = () => {
   if (!loading && loggedIn && user) {
     return (
       <>
+        <NavList />
         <div className={styles.container}>
-          <NavList />
           <Profile user={userProfile} />
           {isFollow ? (
             <FormButton value="UnFollow" onClick={clickUnFollow} />

@@ -60,18 +60,18 @@ const SignIn = memo(() => {
       <form method="post" onSubmit={onLoginSubmit} className={styles.signIn}>
         <h1>SIGN IN</h1>
         <FormInput
-          label="password"
-          name="password"
-          type="password"
-          value={password}
-          onChange={setPassword}
-        />
-        <FormInput
           label="name"
           name="name"
           type="text"
           value={name}
           onChange={setName}
+        />
+        <FormInput
+          label="password"
+          name="password"
+          type="password"
+          value={password}
+          onChange={setPassword}
         />
         <FormButton value="Sign in" />
         {err === "length" ? (
