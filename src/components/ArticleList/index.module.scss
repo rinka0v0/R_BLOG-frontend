@@ -17,6 +17,9 @@
     transition: all 0.2s ease-out;
     top: -4px;
   }
+  @media screen and (max-width: 480px) {
+    height: 220px;
+  }
 
   &:before {
     content: "";
