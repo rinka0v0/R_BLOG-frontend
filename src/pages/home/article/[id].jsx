@@ -133,8 +133,7 @@ const Article = () => {
               </div>
               <div className={styles.comment}>
                 <h2>Comment</h2>
-                {/* {CommentList} */}
-                {comments !== undefined ? comments.slice(0, count) : null}
+                {comments !== undefined ? comments.slice(0, count) :<div className={styles.noComment}>コメントはありません</div>}
               </div>
               {comments !== undefined && comments.length > count ? (
                 <FormButton

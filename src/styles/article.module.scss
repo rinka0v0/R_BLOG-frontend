@@ -15,7 +15,7 @@
     padding: 1em;
   }
   .autherName {
-    color:  #4c9eeb;
+    color: #4c9eeb;
     font-size: 1.2em;
     padding-left: 1.67em;
     display: block;
@@ -33,7 +33,8 @@
   .comment {
     color: #363b48;
     background-color: #ddd;
-    h2 {
+    h2,
+    .noComment {
       border: 1px solid #363b48;
       padding: 1em;
       margin-bottom: 0;
