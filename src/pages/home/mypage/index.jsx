@@ -100,7 +100,7 @@ const Mypage = () => {
           </div>
         ) : null} */}
           <Link href="/home/mypage/edit">
-            <div className={styles.editBtn}>EDIT</div>
+            <div className={styles.editBtn}>自己紹介を変更</div>
           </Link>
           <Profile user={userProfile} />
           <h1>Latest Articles </h1>
