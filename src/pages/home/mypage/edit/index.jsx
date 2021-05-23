@@ -6,6 +6,7 @@ import useUser from "../../../../data/useUser";
 import { aboutUser, postProfile } from "../../../../requests/userApi";
 import styles from "../../../../styles/user.module.scss";
 import Router from "next/router";
+import Footer from "../../../../components/Footer";
 
 const MypageEdit = () => {
   const [profile, setProfile] = useState("");
@@ -65,6 +66,7 @@ const MypageEdit = () => {
           <FormButton value="SAVE" />
         </form>
       </div>
+      <Footer />
     </>
   );
 };

@@ -6,6 +6,7 @@ import Loading from "../../../../components/Loading";
 import useUser from "../../../../data/useUser";
 import NavList from "../../../../components/NavList";
 import { fetchBlog } from "../../../../requests/articleApi";
+import Footer from "../../../../components/Footer";
 
 const Wysiwyg = dynamic(() => import("../../../../components/Wysiwyg/index"), {
   ssr: false,
@@ -68,6 +69,7 @@ const EditPage = () => {
             />
           </div>
         )}
+        <Footer />
       </>
     );
   }

@@ -7,6 +7,7 @@ import ArticleList from "../../components/ArticleList";
 import styles from "../../styles/homePage.module.scss";
 import Head from "next/head";
 import FormButton from "../../components/FormButton/index";
+import Footer from "../../components/Footer";
 
 const fetchBlogs = async () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -77,6 +78,7 @@ const Home = () => {
             {blogs.length > count ? (
               <FormButton value="MORE" onClick={handleShowMorePosts} />
             ) : null}
+            <Footer />
           </div>
         ) : (
           <Loading />

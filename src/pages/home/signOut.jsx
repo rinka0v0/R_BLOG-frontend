@@ -6,6 +6,7 @@ import { logout } from "../../requests/userApi";
 import Loading from "../../components/Loading/index";
 import FormButton from "../../components/FormButton";
 import styles from "../../styles/form.module.scss";
+import Footer from "../../components/Footer";
 
 const Logout = () => {
   const { user, loggedIn, mutate, loading } = useUser();
@@ -34,7 +35,7 @@ const Logout = () => {
   if (loggedIn && user) {
     return (
       <>
-        <NavList/>
+        <NavList />
         <form className={styles.signOut}>
           <h1>Do you want to sign out?</h1>
           <FormButton
@@ -43,6 +44,7 @@ const Logout = () => {
             className={styles.button}
           />
         </form>
+        <Footer />
       </>
     );
   }
