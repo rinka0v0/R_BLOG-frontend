@@ -116,8 +116,8 @@ const Article = () => {
             <div className={styles.container}>
               {user.user_id === blog.user_id ? (
                 <>
-                  <FormButton value="DELETE" onClick={onDeleteClick} />
-                  <FormButton value="EDIT" onClick={onEditClick} />
+                  <FormButton value="削除" onClick={onDeleteClick} />
+                  <FormButton value="編集" onClick={onEditClick} />
                 </>
               ) : null}
               <Link href={"/home/user/" + blog.user_id}>

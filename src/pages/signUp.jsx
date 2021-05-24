@@ -56,37 +56,37 @@ const SignUp = memo(() => {
   return (
     <>
       <div className={styles.guestsignin} onClick={guestSignIn}>
-        Guest sign in
+        ゲストサインイン
       </div>
       <form method="post" onSubmit={onSignupSubmit} className={styles.signUp}>
-        <h1>SIGN UP</h1>
+        <h1>サインアップ</h1>
         <FormInput
-          label="name"
+          label="名前"
           name="name"
           type="text"
           value={name}
           onChange={setName}
         />
         <FormInput
-          label="password"
+          label="パスワード"
           name="password"
           type="password"
           value={password}
           onChange={setPassword}
         />
-        <FormButton value="Sign Up" />
+        <FormButton value="サインアップ" />
         {err === "length" ? (
           <div className={styles.error}>
-            Please input user name and password
+            名前とパスワードを入力してください
           </div>
         ) : null}
         {err === "alredyExist" ? (
-          <div className={styles.error}>The name is already in use.</div>
+          <div className={styles.error}>この名前は使われています</div>
         ) : null}
         <div>
-          <p>Already have an account?</p>
+          <p>既にアカウントをお持ちですか?</p>
           <Link href="/signIn">
-            <a className={styles.link}>Sign In</a>
+            <a className={styles.link}>サインイン</a>
           </Link>
         </div>
       </form>

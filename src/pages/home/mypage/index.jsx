@@ -57,60 +57,24 @@ const Mypage = () => {
     });
   }, []);
 
-  //   const onFileChange = (e) => {
-  //     const files = e.target.files;
-  //     if (files.length) {
-  //       const file = files[0];
-  //       const reader = new FileReader();
-  //       reader.onload = (e) => {
-  //         setImages(file);
-  //       };
-  //       reader.readAsDataURL(file);
-  //     } else {
-  //       setImages(null);
-  //     }
-  //   };
-
-  // const onFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   const fileUrl = URL.createObjectURL(file);
-  //   setImages(fileUrl);
-  // };
-
   if (!loggedIn || loading) {
     return <Loading />;
   }
-  // if (!userProfile || userProfile.id === null) {
-  //   return <Loading />;
-  // }
+  if (!userProfile || userProfile.id === null) {
+    return <Loading />;
+  }
   if (!loading && loggedIn && user) {
     return (
       <>
         <NavList />
         <div className={styles.container}>
-          {/* <input
-          type="file"
-          onChange={(e) => {
-            onFileChange(e);
-          }}
-        />
-        {images ? (
-          <div>
-            <img src={images} />
-          </div>
-        ) : null} */}
           <Link href="/home/mypage/edit">
             <div className={styles.editBtn}>自己紹介を変更</div>
           </Link>
           <Profile user={userProfile} />
-          <h1>Latest Articles </h1>
+          <h1>これまでの投稿</h1>
           <div className={styles.articleArea}>
-            {blogs.length ? (
-              blogs.slice(0, count)
-            ) : (
-              // <div>Not found articles</div>
-              null
-            )}
+            {blogs.length ? blogs.slice(0, count) : null}
           </div>
           {blogs.length > count ? (
             <FormButton value="MORE" onClick={handleShowMorePosts} />

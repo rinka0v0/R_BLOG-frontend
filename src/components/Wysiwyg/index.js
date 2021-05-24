@@ -72,7 +72,7 @@ const Wysiwyg = memo((props) => {
     <div className={styles.container}>
       {props.mode === "EDIT" ? (
         <>
-          <FormButton value="EDIT" onClick={rePostArticle} />
+          <FormButton value="編集" onClick={rePostArticle} />
           <label>
             title
             <input
@@ -90,7 +90,7 @@ const Wysiwyg = memo((props) => {
       ) : null}
       {props.mode === "POST" ? (
         <>
-          <FormButton value="POST" onClick={saveArticle} />
+          <FormButton value="投稿" onClick={saveArticle} />
           <label>
             title
             <input

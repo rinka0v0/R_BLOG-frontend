@@ -55,37 +55,37 @@ const SignIn = memo(() => {
   return (
     <>
       <div className={styles.guestsignin} onClick={guestSignIn}>
-        Guest sign in
+        ゲストサインイン
       </div>
       <form method="post" onSubmit={onLoginSubmit} className={styles.signIn}>
-        <h1>SIGN IN</h1>
+        <h1>サインイン</h1>
         <FormInput
-          label="name"
+          label="名前"
           name="name"
           type="text"
           value={name}
           onChange={setName}
         />
         <FormInput
-          label="password"
+          label="パスワード"
           name="password"
           type="password"
           value={password}
           onChange={setPassword}
         />
-        <FormButton value="Sign in" />
+        <FormButton value="サインイン" />
         {err === "length" ? (
           <div className={styles.error}>
-            Please input user name and password
+            名前とパスワードを入力してください
           </div>
         ) : null}
         {err === "notFound" ? (
           <div className={styles.error}>not found accont</div>
         ) : null}
         <div>
-          <p>Don't have an account?</p>
+          <p>アカウントをお持ちでないですか?</p>
           <Link href="/signUp">
-            <a className={styles.link}>Sign Up</a>
+            <a className={styles.link}>サインアップ</a>
           </Link>
         </div>
       </form>

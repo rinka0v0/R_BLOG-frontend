@@ -35,7 +35,7 @@ const Comment = (props) => {
 
   return (
     <div className={styles.container}>
-      <FormButton value="COMMENT" onClick={saveComment} />
+      <FormButton value="コメントする" onClick={saveComment} />
       {err === "lack" ? (
         <div className={styles.error}>Please input title </div>
       ) : (
