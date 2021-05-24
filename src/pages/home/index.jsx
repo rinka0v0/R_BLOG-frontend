@@ -31,12 +31,12 @@ const fetchBlogs = async () => {
 const Home = () => {
   const [count, setCount] = useState(10);
   const [fallowCount, setFallowCount] = useState(10);
-
   const [blogs, setBlogs] = useState([]);
   const [likeBlogs, setLikeBlogs] = useState([]);
   const [followBlogs, setFollowBlogs] = useState([]);
-
   const { user, loading, loggedIn } = useUser();
+
+  const [fetching, setFetching] = useState(true);
 
   const handleShowMorePosts = useCallback(() => {
     setCount((pre) => {
@@ -59,6 +59,7 @@ const Home = () => {
         setBlogs(blogs);
         setFollowBlogs(followBlogs);
         setLikeBlogs(likeBlogs);
+        setFetching(false);
       }
     };
     fetchAndSetBlos();
@@ -76,6 +77,11 @@ const Home = () => {
   if (!loggedIn || loading) {
     return <Loading />;
   }
+
+  if (fetching) {
+    return <Loading />;
+  }
+
   if (!loading && loggedIn && user) {
     return (
       <>
