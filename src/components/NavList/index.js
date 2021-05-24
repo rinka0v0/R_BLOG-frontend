@@ -8,22 +8,22 @@ const NavList = () => {
         <ul>
           <li>
             <Link href="/home">
-              <a>HOME</a>
+              <a>ホーム</a>
             </Link>
           </li>
           <li>
             <Link href="/home/mypage">
-              <a>MYPAGE</a>
+              <a>マイページ</a>
             </Link>
           </li>
           <li>
             <Link href="/home/post">
-              <a>POST</a>
+              <a>投稿する</a>
             </Link>
           </li>
           <li>
             <Link href="/home/signOut">
-              <a>SIGN OUT</a>
+              <a>サインアウト</a>
             </Link>
           </li>
         </ul>

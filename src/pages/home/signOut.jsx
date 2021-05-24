@@ -37,9 +37,9 @@ const Logout = () => {
       <>
         <NavList />
         <form className={styles.signOut}>
-          <h1>Do you want to sign out?</h1>
+          <h1>サインアウトしますか?</h1>
           <FormButton
-            value="SIGN OUT!"
+            value="サインアウト"
             onClick={onLogoutSubmit}
             className={styles.button}
           />
