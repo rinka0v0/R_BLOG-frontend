@@ -36,7 +36,6 @@
   }
   textarea {
     display: block;
-    // vertical-align: top;
     width: 80%;
     height: 300px;
     margin: 1em auto;
@@ -45,10 +44,12 @@
     border-radius: 5px;
     border: 1px solid #e5e5e5;
     font-size: 14px;
-    // outline: none;
-    // resize: vertical;
     &:focus {
       outline: none;
     }
+  }
+  .noPost {
+    color: #ddd;text-align: center;
+
   }
 }

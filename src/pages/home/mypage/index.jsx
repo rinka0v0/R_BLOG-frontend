@@ -74,7 +74,7 @@ const Mypage = () => {
           <Profile user={userProfile} />
           <h1>これまでの投稿</h1>
           <div className={styles.articleArea}>
-            {blogs.length ? blogs.slice(0, count) : null}
+            {blogs.length ? blogs.slice(0, count) : <p className={styles.noPost}>まだ投稿はありません</p>}
           </div>
           {blogs.length > count ? (
             <FormButton value="MORE" onClick={handleShowMorePosts} />
