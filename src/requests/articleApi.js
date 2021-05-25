@@ -170,7 +170,6 @@ export const mostLikeBlogs = async () => {
     });
     const blog = jsonBlog.data.results;
     const blogs = blog.map((blog, index) => {
-      console.log(blog)
       return (
         <ArticleList
           title={blog.title}

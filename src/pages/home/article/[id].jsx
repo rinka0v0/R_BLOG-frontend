@@ -32,6 +32,7 @@ const Article = () => {
   const [editorState, setEditorState] = useState();
   const [count, setCount] = useState(5);
   const [like, setLike] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
   const processing = useRef(false);
 
@@ -56,6 +57,7 @@ const Article = () => {
         }
         setBlog(blog);
         setEditorState(editorState);
+        setFetching(false);
       };
       fetchAndSetBlog();
       commentMutate();
@@ -63,12 +65,12 @@ const Article = () => {
   }, [blogId]);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (!loading && !user) {
-        Router.replace("/signIn");
-      }
-    };
-    fetchUser();
+    // const fetchUser = async () => {
+    if (!loading && !user) {
+      Router.replace("/signIn");
+    }
+    // };
+    // fetchUser();
     commentMutate();
   }, []);
 
@@ -110,13 +112,20 @@ const Article = () => {
   if (!loggedIn || loading) {
     return <Loading />;
   }
+  if (fetching) {
+    return <Loading />;
+  }
+  console.log(blog);
+
   if (loggedIn && user) {
     return (
       <>
         <NavList />
-        {blog === {} ? <Loading /> : null}
-        {!blog.title ? (
-          <Loading />
+        {!fetching && !blog.id ? (
+          <>
+            <p className={styles.error}>記事がありません </p>
+            <Footer />
+          </>
         ) : (
           <>
             <div className={styles.container}>
