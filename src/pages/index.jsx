@@ -36,12 +36,12 @@ const IndexPage = () => {
           />
         </div>
         <LinkButton
-          value="SIGN UP"
+          value="サインアップ"
           url="/signUp"
           className={styles.linkButton}
         />
         <LinkButton
-          value="SIGN IN"
+          value="サインイン"
           url="/signIn"
           className={styles.linkButton}
         />

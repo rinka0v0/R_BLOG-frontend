@@ -2,7 +2,7 @@ import NavList from "../../../components/NavList/index";
 import styles from "../../../styles/article.module.scss";
 import useUser from "../../../data/useUser";
 import useCommentListGet from "../../../data/useCommentListGet";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Loading from "../../../components/Loading";
 import Router, { useRouter } from "next/router";
 import FormButton from "../../../components/FormButton";
@@ -32,6 +32,9 @@ const Article = () => {
   const [editorState, setEditorState] = useState();
   const [count, setCount] = useState(5);
   const [like, setLike] = useState(false);
+  const [fetching, setFetching] = useState(true);
+
+  const processing = useRef(false);
 
   // useSWRで認証情報・コメントを取得
   const { user, loading, loggedIn } = useUser();
@@ -54,6 +57,7 @@ const Article = () => {
         }
         setBlog(blog);
         setEditorState(editorState);
+        setFetching(false);
       };
       fetchAndSetBlog();
       commentMutate();
@@ -61,12 +65,12 @@ const Article = () => {
   }, [blogId]);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (!loading && !user) {
-        Router.replace("/signIn");
-      }
-    };
-    fetchUser();
+    // const fetchUser = async () => {
+    if (!loading && !user) {
+      Router.replace("/signIn");
+    }
+    // };
+    // fetchUser();
     commentMutate();
   }, []);
 
@@ -91,26 +95,37 @@ const Article = () => {
     Router.replace(`/home/article/${blogId}/edit`);
   }, [blogId]);
 
-  const clickHeart = useCallback(() => {
+  const clickHeart = useCallback(async () => {
+    if (processing.current) return;
+    processing.current = true;
+
     if (like) {
-      deleteLike(blog.id);
-      setLike(!like);
+      await deleteLike(blog.id);
+      setLike((prev) => !prev);
     } else {
-      postLike(blog.id);
-      setLike(!like);
+      await postLike(blog.id);
+      setLike((prev) => !prev);
     }
+    processing.current = false;
   }, [blog]);
 
   if (!loggedIn || loading) {
     return <Loading />;
   }
+  if (fetching) {
+    return <Loading />;
+  }
+  console.log(blog);
+
   if (loggedIn && user) {
     return (
       <>
         <NavList />
-        {blog === {} ? <Loading /> : null}
-        {!blog.title ? (
-          <Loading />
+        {!fetching && !blog.id ? (
+          <>
+            <p className={styles.error}>記事がありません </p>
+            <Footer />
+          </>
         ) : (
           <>
             <div className={styles.container}>
@@ -133,7 +148,11 @@ const Article = () => {
               </div>
               <div className={styles.comment}>
                 <h2>Comment</h2>
-                {comments !== undefined ? comments.slice(0, count) :<div className={styles.noComment}>コメントはありません</div>}
+                {comments !== undefined ? (
+                  comments.slice(0, count)
+                ) : (
+                  <div className={styles.noComment}>コメントはありません</div>
+                )}
               </div>
               {comments !== undefined && comments.length > count ? (
                 <FormButton

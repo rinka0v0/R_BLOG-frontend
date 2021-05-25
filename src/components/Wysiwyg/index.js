@@ -26,7 +26,6 @@ const Wysiwyg = memo((props) => {
     if (editorState && title.trim().length !== 0) {
       try {
         const content = JSON.stringify(convertToRaw(data));
-        console.log(content);
         const res = await postArticle({ title: title, data: content });
         Router.replace("/home");
       } catch (error) {
