@@ -2,7 +2,7 @@ import NavList from "../../../components/NavList/index";
 import styles from "../../../styles/article.module.scss";
 import useUser from "../../../data/useUser";
 import useCommentListGet from "../../../data/useCommentListGet";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Loading from "../../../components/Loading";
 import Router, { useRouter } from "next/router";
 import FormButton from "../../../components/FormButton";
@@ -32,6 +32,8 @@ const Article = () => {
   const [editorState, setEditorState] = useState();
   const [count, setCount] = useState(5);
   const [like, setLike] = useState(false);
+
+  const processing = useRef(false);
 
   // useSWRで認証情報・コメントを取得
   const { user, loading, loggedIn } = useUser();
@@ -91,14 +93,18 @@ const Article = () => {
     Router.replace(`/home/article/${blogId}/edit`);
   }, [blogId]);
 
-  const clickHeart = useCallback(() => {
+  const clickHeart = useCallback(async () => {
+    if (processing.current) return;
+    processing.current = true;
+
     if (like) {
-      deleteLike(blog.id);
-      setLike(!like);
+      await deleteLike(blog.id);
+      setLike((prev) => !prev);
     } else {
-      postLike(blog.id);
-      setLike(!like);
+      await postLike(blog.id);
+      setLike((prev) => !prev);
     }
+    processing.current = false;
   }, [blog]);
 
   if (!loggedIn || loading) {
@@ -133,7 +139,11 @@ const Article = () => {
               </div>
               <div className={styles.comment}>
                 <h2>Comment</h2>
-                {comments !== undefined ? comments.slice(0, count) :<div className={styles.noComment}>コメントはありません</div>}
+                {comments !== undefined ? (
+                  comments.slice(0, count)
+                ) : (
+                  <div className={styles.noComment}>コメントはありません</div>
+                )}
               </div>
               {comments !== undefined && comments.length > count ? (
                 <FormButton
