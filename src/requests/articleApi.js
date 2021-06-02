@@ -38,8 +38,9 @@ export const editArticle = async ({ title, data, blog_id }) => {
   );
 };
 
-export const articleDelete = async (id) => {
-  const res = await axios.get(API_URL + `delete/${id}`, {
+export const articleDelete = async (blog_id) => {
+  const res = await axios.delete(API_URL + `blogs`, {
+    data: { blog_id },
     headers: authHeader(),
   });
 };
